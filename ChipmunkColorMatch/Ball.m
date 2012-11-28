@@ -88,7 +88,6 @@ static NSArray *CollisionTypes = nil;
 		
 		// Setup the sprites
 		CCTexture2D *balls = [[CCTextureCache sharedTextureCache] addImage:@"balls.png"];
-		[balls generateMipmap];
 		float texSize = balls.contentSize.width/4.0f;
 		
 		int row = _color/4;

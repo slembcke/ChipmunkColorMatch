@@ -50,6 +50,11 @@
 		
 		_balls = [NSMutableArray array];
 		
+		// Force the balls texture to be trilinear filtered for better texture scaling quality.
+		CCTexture2D *balls = [[CCTextureCache sharedTextureCache] addImage:@"balls.png"];
+		[balls generateMipmap];
+		[balls setTexParameters:(ccTexParams[]){{GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT}}];
+		
 		// Set up the physics space
 		_space = [[ChipmunkSpace alloc] init];
 		_space.gravity = cpv(0.0f, -500.0f);
