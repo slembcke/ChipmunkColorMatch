@@ -24,6 +24,14 @@
 	int _ticks;
 }
 
+static NSDictionary *PopParticles = nil;
+
++(void)initialize
+{
+	NSString *path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"pop.plist"];
+	PopParticles = [NSDictionary dictionaryWithContentsOfFile:path];
+}
+
 +(CCScene *) scene
 {
 	CCScene *scene = [CCScene node];
@@ -46,7 +54,7 @@
 		[self addChild:fg z:Z_FOREGROUND];
 		
 		_overlay = [CCDrawNode node];
-		[self addChild:_overlay z:Z_OVERLAY];
+//		[self addChild:_overlay z:Z_OVERLAY];
 		
 		_balls = [NSMutableArray array];
 		
@@ -78,7 +86,7 @@
 		label.color = ccBLACK;
 		
 		CCMenuItemLabel *item = [CCMenuItemLabel itemWithLabel:label block:^(id sender){debugNode.visible ^= TRUE;}];
-		item.position = ccp(900, 740);
+		item.position = ccp(870, 740);
 		
 		CCMenu *menu = [CCMenu menuWithItems:item, nil];
 		menu.position = CGPointZero;
@@ -114,6 +122,12 @@
 	}
 	
 	[_balls removeObject:ball];
+	
+	// Draw particles whenever a ball is removed.
+	CCParticleSystem *particles = [[CCParticleSystemQuad alloc] initWithDictionary:PopParticles];
+	particles.position = ball.pos;
+	particles.autoRemoveOnFinish = TRUE;
+	[self addChild:particles z:Z_PARTICLES];
 }
 
 -(bool)markPair:(cpArbiter *)arb space:(ChipmunkSpace *)space
@@ -198,6 +212,7 @@ const int TICKS_PER_SECOND = 120;
 	UITouch *touch = [touches anyObject];
 	cpVect point = [self convertTouchToNodeSpace:touch];
 	
+	// TODO need to filter out the border segments
 	ChipmunkNearestPointQueryInfo *info = [_space nearestPointQueryNearest:point maxDistance:10.0 layers:CP_ALL_LAYERS group:CP_NO_GROUP];
 	if(info.shape){
 		Ball *ball = info.shape.data;
