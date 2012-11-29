@@ -6,7 +6,7 @@
 //  Copyright Howling Moon Software 2012. All rights reserved.
 //
 
-
+#import "SimpleAudioEngine.h"
 #import "ObjectiveChipmunk.h"
 #import "MainLayer.h"
 #import "Ball.h"
@@ -98,6 +98,7 @@ static NSDictionary *PopParticles = nil;
 
 -(void)onEnter
 {
+	[CDAudioManager configure:kAMM_FxOnly];
 	[self scheduleUpdate];
 	[super onEnter];
 }
@@ -187,7 +188,14 @@ const int TICKS_PER_SECOND = 120;
 	// Remove those balls.
 	for(Ball *ball in [_balls copy]){
 		Ball *root = ball.componentRoot;
-		if(root.componentCount >= 4) [self removeBall:ball];
+		if(root.componentCount >= 4){
+			[self removeBall:ball];
+			
+			// Play a pop noise.
+			int half_steps = (arc4random()%(2*4 + 1) - 4);
+			float pitch = pow(2.0f, half_steps/12.0f);
+			[[SimpleAudioEngine sharedEngine] playEffect:@"ploop.wav" pitch:pitch pan:0.0 gain:1.0];
+		}
 	}
 	
 	_ticks++;
@@ -217,6 +225,10 @@ const int TICKS_PER_SECOND = 120;
 	if(info.shape){
 		Ball *ball = info.shape.data;
 		[self removeBall:ball];
+		
+		int half_steps = (arc4random()%(2*4 + 1) - 4);
+		float pitch = pow(2.0f, half_steps/12.0f);
+		[[SimpleAudioEngine sharedEngine] playEffect:@"pop.wav" pitch:pitch pan:0.0 gain:1.0];
 	}
 }
 

@@ -15,6 +15,9 @@
 		D31032FD1666A31800310706 /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = D31032F41666A2F700310706 /* CocosDenshion.m */; };
 		D31032FE1666A31800310706 /* SimpleAudioEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = D31032F61666A2F700310706 /* SimpleAudioEngine.m */; };
 		D360BC2F1666DA9100910412 /* pop.plist in Resources */ = {isa = PBXBuildFile; fileRef = D360BC2E1666DA9100910412 /* pop.plist */; };
+		D360BC341666E13800910412 /* pop.wav in Resources */ = {isa = PBXBuildFile; fileRef = D360BC331666E13800910412 /* pop.wav */; };
+		D360BC371666E37900910412 /* thump.wav in Resources */ = {isa = PBXBuildFile; fileRef = D360BC351666E37900910412 /* thump.wav */; };
+		D360BC381666E37900910412 /* ploop.wav in Resources */ = {isa = PBXBuildFile; fileRef = D360BC361666E37900910412 /* ploop.wav */; };
 		D3B887B416667CF10060278E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3B887B316667CF10060278E /* QuartzCore.framework */; };
 		D3B887B616667CF10060278E /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3B887B516667CF10060278E /* OpenGLES.framework */; };
 		D3B887B816667CF10060278E /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3B887B716667CF10060278E /* OpenAL.framework */; };
@@ -214,6 +217,9 @@
 		D31032F51666A2F700310706 /* SimpleAudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine.h; sourceTree = "<group>"; };
 		D31032F61666A2F700310706 /* SimpleAudioEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine.m; sourceTree = "<group>"; };
 		D360BC2E1666DA9100910412 /* pop.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = pop.plist; sourceTree = "<group>"; };
+		D360BC331666E13800910412 /* pop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop.wav; sourceTree = "<group>"; };
+		D360BC351666E37900910412 /* thump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = thump.wav; sourceTree = "<group>"; };
+		D360BC361666E37900910412 /* ploop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ploop.wav; sourceTree = "<group>"; };
 		D3B887AF16667CF10060278E /* ChipmunkColorMatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChipmunkColorMatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3B887B316667CF10060278E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D3B887B516667CF10060278E /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -641,6 +647,9 @@
 		D3B887C616667CF10060278E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D360BC331666E13800910412 /* pop.wav */,
+				D360BC351666E37900910412 /* thump.wav */,
+				D360BC361666E37900910412 /* ploop.wav */,
 				D360BC2E1666DA9100910412 /* pop.plist */,
 				D3B889D016667F2B0060278E /* balls.png */,
 				D3B889D116667F2B0060278E /* bg.png */,
@@ -1071,6 +1080,9 @@
 				D3B889D416667F2B0060278E /* bg.png in Resources */,
 				D3B889D516667F2B0060278E /* fg.png in Resources */,
 				D360BC2F1666DA9100910412 /* pop.plist in Resources */,
+				D360BC341666E13800910412 /* pop.wav in Resources */,
+				D360BC371666E37900910412 /* thump.wav in Resources */,
+				D360BC381666E37900910412 /* ploop.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
