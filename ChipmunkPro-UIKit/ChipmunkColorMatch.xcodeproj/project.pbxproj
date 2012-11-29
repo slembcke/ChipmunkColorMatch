@@ -25,6 +25,8 @@
 		D38636FB166727B7003D2207 /* ball_3.png in Resources */ = {isa = PBXBuildFile; fileRef = D38636F5166727B7003D2207 /* ball_3.png */; };
 		D38636FC166727B7003D2207 /* ball_4.png in Resources */ = {isa = PBXBuildFile; fileRef = D38636F6166727B7003D2207 /* ball_4.png */; };
 		D38636FD166727B7003D2207 /* ball_5.png in Resources */ = {isa = PBXBuildFile; fileRef = D38636F7166727B7003D2207 /* ball_5.png */; };
+		D38BEF6216673A4900DB4FA3 /* Default-LandscapeRight~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D38BEF6016673A4900DB4FA3 /* Default-LandscapeRight~ipad.png */; };
+		D38BEF6316673A4900DB4FA3 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D38BEF6116673A4900DB4FA3 /* Icon-72.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +96,8 @@
 		D38636F5166727B7003D2207 /* ball_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball_3.png; sourceTree = "<group>"; };
 		D38636F6166727B7003D2207 /* ball_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball_4.png; sourceTree = "<group>"; };
 		D38636F7166727B7003D2207 /* ball_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball_5.png; sourceTree = "<group>"; };
+		D38BEF6016673A4900DB4FA3 /* Default-LandscapeRight~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-LandscapeRight~ipad.png"; sourceTree = "<group>"; };
+		D38BEF6116673A4900DB4FA3 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +166,8 @@
 		D328E4D716671D7C003BC9D8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D38BEF6016673A4900DB4FA3 /* Default-LandscapeRight~ipad.png */,
+				D38BEF6116673A4900DB4FA3 /* Icon-72.png */,
 				D38636F2166727B7003D2207 /* ball_0.png */,
 				D38636F3166727B7003D2207 /* ball_1.png */,
 				D38636F4166727B7003D2207 /* ball_2.png */,
@@ -302,6 +308,8 @@
 				D38636FB166727B7003D2207 /* ball_3.png in Resources */,
 				D38636FC166727B7003D2207 /* ball_4.png in Resources */,
 				D38636FD166727B7003D2207 /* ball_5.png in Resources */,
+				D38BEF6216673A4900DB4FA3 /* Default-LandscapeRight~ipad.png in Resources */,
+				D38BEF6316673A4900DB4FA3 /* Icon-72.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
