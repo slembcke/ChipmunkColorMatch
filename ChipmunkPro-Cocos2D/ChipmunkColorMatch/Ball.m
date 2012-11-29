@@ -70,8 +70,7 @@ static NSArray *CollisionTypes = nil;
 -(id)init
 {
 	if((self = [super init])){
-		_color = arc4random()%6;
-		_colorType = [CollisionTypes objectAtIndex:_color];
+		int color = arc4random()%6;
 		
 		cpFloat radius = cpflerp(30.0f, 40.0f, frand());
 		cpFloat mass = radius*radius;
@@ -81,7 +80,7 @@ static NSArray *CollisionTypes = nil;
 		
 		_shape = [ChipmunkCircleShape circleWithBody:_body radius:radius offset:cpvzero];
 		_shape.friction = 0.7f;
-		_shape.collisionType = _colorType;
+		_shape.collisionType = [CollisionTypes objectAtIndex:color];
 		_shape.data = self;
 		
 		_chipmunkObjects = @[_body, _shape];
@@ -90,8 +89,8 @@ static NSArray *CollisionTypes = nil;
 		CCTexture2D *balls = [[CCTextureCache sharedTextureCache] addImage:@"balls.png"];
 		float texSize = balls.contentSize.width/4.0f;
 		
-		int row = _color/4;
-		int col = _color%4;
+		int row = color/4;
+		int col = color%4;
 		
 		CCPhysicsSprite *sprite = [CCPhysicsSprite spriteWithFile:@"balls.png" rect:CGRectMake(col*texSize, row*texSize, texSize, texSize)];
 		sprite.chipmunkBody = _body;

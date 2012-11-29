@@ -15,9 +15,6 @@
 	cpSpace *_space;
 	NSMutableArray *_balls;
 	
-	// Overlay that draws lines between adjacent balls
-	CCDrawNode *_overlay;
-	
 	// Time tracking for the fixed timestep.
 	ccTime _accumulator, _fixedTime;
 	int _ticks;
@@ -51,9 +48,6 @@ static NSDictionary *PopParticles = nil;
 		CCSprite *fg = [CCSprite spriteWithFile:@"fg.png"];
 		fg.anchorPoint = CGPointZero;
 		[self addChild:fg z:Z_FOREGROUND];
-		
-		_overlay = [CCDrawNode node];
-//		[self addChild:_overlay z:Z_OVERLAY];
 		
 		_balls = [NSMutableArray array];
 		
@@ -169,8 +163,6 @@ MarkPair(cpArbiter *arb, cpSpace *space, MainLayer *self)
 		rootA.componentCount = rootB.componentCount = rootA.componentCount + rootB.componentCount;
 	}
 	
-	[self->_overlay drawSegmentFrom:ballA.pos to:ballB.pos radius:4.0 color:ccc4f(0, 0, 0, 1)];
-	
 	// Returning false would mean Chipmunk should ignore the collision between shapeA and shapeB.
 	return TRUE;
 }
@@ -179,8 +171,6 @@ const int TICKS_PER_SECOND = 120;
 
 -(void)tick:(ccTime)dt
 {
-	[_overlay clear];
-	
 	// Attempt to add a ball every few ticks if the playfield has less than 70 balls.
 	if(_ticks%6 == 0 && _balls.count < 70){
 		Ball *ball = [Ball ball];

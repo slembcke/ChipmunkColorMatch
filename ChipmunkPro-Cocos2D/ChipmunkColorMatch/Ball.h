@@ -11,9 +11,6 @@
 
 @interface Ball : NSObject<ChipmunkObject>
 
-@property(nonatomic, readonly) int color;
-@property(nonatomic, readonly) cpCollisionType colorType;
-
 @property(nonatomic, assign) cpVect pos;
 @property(nonatomic, readonly) ChipmunkShape *shape;
 
