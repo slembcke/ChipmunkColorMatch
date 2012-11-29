@@ -1,10 +1,23 @@
-//
-//  Ball.m
-//  ChipmunkColorMatch
-//
-//  Created by Scott Lembcke on 11/28/12.
-//  Copyright (c) 2012 Howling Moon Software. All rights reserved.
-//
+/* Copyright (c) 2012 Scott Lembcke and Howling Moon Software
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 #import "Ball.h"
 #import "GameViewController.h"
@@ -37,6 +50,8 @@ static NSArray *CollisionTypes = nil;
 	return CollisionTypes;
 }
 
+// The following two methods implement the other half of the disjoint set forest algorithm.
+// See [MainLayer markPairs:space:] for more information.
 -(Ball *)componentRoot
 {
 	if(_componentParent != self){
@@ -73,24 +88,37 @@ static NSArray *CollisionTypes = nil;
 		int color = arc4random()%6;
 		
 		cpFloat radius = cpflerp(30.0f, 40.0f, frand());
+		// The mass will increase with the square of the radius.
+		// Since there are only balls in the game, the actual value don't matter as long as they are relative.
 		cpFloat mass = radius*radius;
 		
+		// Create the body.
 		_body = [ChipmunkBody bodyWithMass:mass andMoment:cpMomentForCircle(mass, 0.0f, radius, cpvzero)];
+		// Set the user data pointer of the body to point back at the Ball object.
+		// That way you can access the Ball object from Chipmunk callbacks and such.
 		_body.data = self;
 		
+		// Create the collision shape of the ball.
 		_shape = [ChipmunkCircleShape circleWithBody:_body radius:radius offset:cpvzero];
 		_shape.friction = 0.7f;
+		// The collision type is an object reference that is used to figure out which if any collision handler to call.
 		_shape.collisionType = [CollisionTypes objectAtIndex:color];
+		// Set the user data pointer of the shape to point back at the Ball object.
+		// That way you can access the Ball object from Chipmunk callbacks and such.
 		_shape.data = self;
 		
+		// Set the chipmunkObjects ivar for the property to an NSArray (or any NSFastEnumeration).
+		// This is what Chipmunk objects to add and remove from the space.
 		_chipmunkObjects = @[_body, _shape];
 		
+		// Setup the UIButton instance.
 		UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ball_%d.png", color]];
 		CGFloat scale = 2.0*radius/(image.size.width - 8.0f);
 		
 		_button = [UIButton buttonWithType:UIButtonTypeCustom];
 		[_button setImage:image forState:UIControlStateNormal];
 		_button.frame = CGRectMake(0, 0, image.size.width*scale, image.size.height*scale);
+		// Not really sure why, but for the transform to line up properly you need to set the center to (0,0)
 		_button.center = CGPointZero;
 		[_button addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
 	}
@@ -105,6 +133,9 @@ static NSArray *CollisionTypes = nil;
 
 -(void)sync;
 {
+	// So there are a number of ways that you can sync the view to the body.
+	// I implemented it here where at the end of each frame, the transform is copied manually to the view.
+	// You could make it more automatic for larger, more complicated projects, but this is the simplest way.
 	_button.transform = _body.affineTransform;
 }
 

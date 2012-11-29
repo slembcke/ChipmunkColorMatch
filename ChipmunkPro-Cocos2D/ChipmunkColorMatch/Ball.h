@@ -27,16 +27,23 @@
 @property(nonatomic, assign) cpVect pos;
 @property(nonatomic, readonly) ChipmunkShape *shape;
 
+// Sprites for this ball.
+// The regular sprite, and a non-rotating highlight.
+@property(nonatomic, readonly) NSArray *sprites;
+
+// This property is all you need to do to implement the ChipmunkObject protocol.
+// Simply fill it with the Chipmunk objects that this object owns.
+@property(nonatomic, readonly) NSArray *chipmunkObjects;
+
 // Properties used when finding matched groups of balls.
 // See MainLayer.m for how these are used.
 @property(nonatomic, weak) Ball *componentRoot;
 @property(nonatomic, assign) int componentCount;
 
-@property(nonatomic, readonly) NSArray *sprites;
-@property(nonatomic, readonly) NSArray *chipmunkObjects;
-
 +(Ball *)ball;
 
+// List of cpCollisionType identifiers.
+// Used by the space to add the collision handlers.
 +(NSArray *)collisionTypes;
 
 @end

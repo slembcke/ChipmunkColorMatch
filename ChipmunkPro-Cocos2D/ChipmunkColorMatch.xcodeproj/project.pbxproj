@@ -598,7 +598,6 @@
 		D3B887A416667CF10060278E = {
 			isa = PBXGroup;
 			children = (
-				D31032DB166689E600310706 /* ImageIO.framework */,
 				D3B887C516667CF10060278E /* ChipmunkColorMatch */,
 				D3B887B216667CF10060278E /* Frameworks */,
 				D3B887B016667CF10060278E /* Products */,
@@ -617,6 +616,7 @@
 		D3B887B216667CF10060278E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D31032DB166689E600310706 /* ImageIO.framework */,
 				D3B887B316667CF10060278E /* QuartzCore.framework */,
 				D3B887B516667CF10060278E /* OpenGLES.framework */,
 				D3B887B716667CF10060278E /* OpenAL.framework */,
@@ -633,6 +633,8 @@
 		D3B887C516667CF10060278E /* ChipmunkColorMatch */ = {
 			isa = PBXGroup;
 			children = (
+				D3B8894D16667CF40060278E /* main.m */,
+				D3B8894C16667CF40060278E /* Prefix.pch */,
 				D3B8894F16667CF40060278E /* AppDelegate.h */,
 				D3B8895016667CF40060278E /* AppDelegate.m */,
 				D31032EC1666A05A00310706 /* Shared.h */,
@@ -1002,8 +1004,6 @@
 		D3B8894B16667CF40060278E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D3B8894C16667CF40060278E /* Prefix.pch */,
-				D3B8894D16667CF40060278E /* main.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";

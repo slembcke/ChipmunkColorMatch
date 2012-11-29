@@ -50,6 +50,8 @@ static NSArray *CollisionTypes = nil;
 	return CollisionTypes;
 }
 
+// The following two methods implement the other half of the disjoint set forest algorithm.
+// See [MainLayer markPairs:space:] for more information.
 -(Ball *)componentRoot
 {
 	if(_componentParent != self){
@@ -86,17 +88,30 @@ static NSArray *CollisionTypes = nil;
 		int color = arc4random()%6;
 		
 		cpFloat radius = cpflerp(30.0f, 40.0f, frand());
+		// The mass will increase with the square of the radius.
+		// Since there are only balls in the game, the actual value don't matter as long as they are relative.
 		cpFloat mass = radius*radius;
 		
+		// Create the body.
 		_body = [ChipmunkBody bodyWithMass:mass andMoment:cpMomentForCircle(mass, 0.0f, radius, cpvzero)];
+		// Set the user data pointer of the body to point back at the Ball object.
+		// That way you can access the Ball object from Chipmunk callbacks and such.
 		_body.data = self;
 		
+		// Create the collision shape of the ball.
 		_shape = [ChipmunkCircleShape circleWithBody:_body radius:radius offset:cpvzero];
 		_shape.friction = 0.7f;
+		// The layers is a bitmask used for filtering collisions or queries.
+		// See the [MainLayer ccTouchesBegan:withEvent:] method for more info.
 		_shape.layers = PhysicsBallLayers;
+		// The collision type is an object reference that is used to figure out which if any collision handler to call.
 		_shape.collisionType = [CollisionTypes objectAtIndex:color];
+		// Set the user data pointer of the shape to point back at the Ball object.
+		// That way you can access the Ball object from Chipmunk callbacks and such.
 		_shape.data = self;
 		
+		// Set the chipmunkObjects ivar for the property to an NSArray (or any NSFastEnumeration).
+		// This is what Chipmunk objects to add and remove from the space.
 		_chipmunkObjects = @[_body, _shape];
 		
 		// Setup the sprites
@@ -106,11 +121,18 @@ static NSArray *CollisionTypes = nil;
 		int row = color/4;
 		int col = color%4;
 		
+		// So I noticed a bug in the CCPhysicsSprite class that ignored the scale of the sprite.
+		// I fixed that this project and will be sending a patch for it soon.
+		// Be aware that it might not work in mainline Cocos2D though.
+		
+		// The main sprite for the ball.
 		CCPhysicsSprite *sprite = [CCPhysicsSprite spriteWithFile:@"balls.png" rect:CGRectMake(col*texSize, row*texSize, texSize, texSize)];
 		sprite.chipmunkBody = _body;
 		sprite.scale = 2.0f*radius/(texSize - 8.0f);
 		sprite.zOrder = Z_BALLS;
 		
+		// The highlight sprite overlain over the regular sprite.
+		// It's set to ignore the rotation of the body.
 		CCPhysicsSprite *highlight = [CCPhysicsSprite spriteWithFile:@"balls.png" rect:CGRectMake(3*texSize, 1*texSize, texSize, texSize)];
 		highlight.chipmunkBody = _body;
 		highlight.ignoreBodyRotation = TRUE;

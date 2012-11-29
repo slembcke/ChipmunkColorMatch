@@ -150,13 +150,13 @@
 			isa = PBXGroup;
 			children = (
 				D328E4AB16671595003BC9D8 /* main.m */,
+				D328E4AD16671595003BC9D8 /* ChipmunkColorMatch-Prefix.pch */,
 				D328E4AE16671595003BC9D8 /* AppDelegate.h */,
 				D328E4AF16671595003BC9D8 /* AppDelegate.m */,
 				D38636F11667258C003D2207 /* Shared.h */,
 				D328E4B716671595003BC9D8 /* GameViewController.h */,
 				D328E4B816671595003BC9D8 /* GameViewController.m */,
 				D328E4BA16671595003BC9D8 /* GameViewController.xib */,
-				D328E4AD16671595003BC9D8 /* ChipmunkColorMatch-Prefix.pch */,
 				D38636C0166724DA003D2207 /* Ball.h */,
 				D38636C1166724DA003D2207 /* Ball.m */,
 			);
