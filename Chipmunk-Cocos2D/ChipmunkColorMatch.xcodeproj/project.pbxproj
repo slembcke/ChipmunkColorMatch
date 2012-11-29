@@ -14,6 +14,7 @@
 		D31032FC1666A31800310706 /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = D31032F21666A2F700310706 /* CDOpenALSupport.m */; };
 		D31032FD1666A31800310706 /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = D31032F41666A2F700310706 /* CocosDenshion.m */; };
 		D31032FE1666A31800310706 /* SimpleAudioEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = D31032F61666A2F700310706 /* SimpleAudioEngine.m */; };
+		D328E4D116671BF7003BC9D8 /* libCocos2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3B8896116667E090060278E /* libCocos2D.a */; };
 		D360BC2F1666DA9100910412 /* pop.plist in Resources */ = {isa = PBXBuildFile; fileRef = D360BC2E1666DA9100910412 /* pop.plist */; };
 		D360BC341666E13800910412 /* pop.wav in Resources */ = {isa = PBXBuildFile; fileRef = D360BC331666E13800910412 /* pop.wav */; };
 		D360BC371666E37900910412 /* thump.wav in Resources */ = {isa = PBXBuildFile; fileRef = D360BC351666E37900910412 /* thump.wav */; };
@@ -132,7 +133,6 @@
 		D3B889CA16667E900060278E /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = D3B8894816667CF40060278E /* vec4.c */; };
 		D3B889CB16667E900060278E /* mat4stack.c in Sources */ = {isa = PBXBuildFile; fileRef = D3B8893216667CF40060278E /* mat4stack.c */; };
 		D3B889CC16667E900060278E /* matrix.c in Sources */ = {isa = PBXBuildFile; fileRef = D3B8893416667CF40060278E /* matrix.c */; };
-		D3B889CF16667EB50060278E /* libCocos2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3B8896116667E090060278E /* libCocos2D.a */; };
 		D3B889D316667F2B0060278E /* balls.png in Resources */ = {isa = PBXBuildFile; fileRef = D3B889D016667F2B0060278E /* balls.png */; };
 		D3B889D416667F2B0060278E /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = D3B889D116667F2B0060278E /* bg.png */; };
 		D3B889D516667F2B0060278E /* fg.png in Resources */ = {isa = PBXBuildFile; fileRef = D3B889D216667F2B0060278E /* fg.png */; };
@@ -230,11 +230,11 @@
 		D3B887BF16667CF10060278E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D3B887C116667CF10060278E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		D3B887C316667CF10060278E /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
-		D3B887CF16667CF10060278E /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = Resources/fps_images.png; sourceTree = "<group>"; };
-		D3B887D116667CF10060278E /* fps_images-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fps_images-hd.png"; path = "Resources/fps_images-hd.png"; sourceTree = "<group>"; };
-		D3B887D316667CF10060278E /* fps_images-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fps_images-ipadhd.png"; path = "Resources/fps_images-ipadhd.png"; sourceTree = "<group>"; };
-		D3B887E116667CF10060278E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
-		D3B887E216667CF10060278E /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
+		D3B887CF16667CF10060278E /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fps_images.png; sourceTree = "<group>"; };
+		D3B887D116667CF10060278E /* fps_images-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fps_images-hd.png"; sourceTree = "<group>"; };
+		D3B887D316667CF10060278E /* fps_images-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fps_images-ipadhd.png"; sourceTree = "<group>"; };
+		D3B887E116667CF10060278E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3B887E216667CF10060278E /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		D3B887E616667CF10060278E /* CCAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAction.h; sourceTree = "<group>"; };
 		D3B887E716667CF10060278E /* CCAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCAction.m; sourceTree = "<group>"; };
 		D3B887E916667CF10060278E /* CCActionCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCActionCamera.h; sourceTree = "<group>"; };
@@ -484,8 +484,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D328E4D116671BF7003BC9D8 /* libCocos2D.a in Frameworks */,
 				D31032DC166689E600310706 /* ImageIO.framework in Frameworks */,
-				D3B889CF16667EB50060278E /* libCocos2D.a in Frameworks */,
 				D3B887B416667CF10060278E /* QuartzCore.framework in Frameworks */,
 				D3B887B616667CF10060278E /* OpenGLES.framework in Frameworks */,
 				D3B887B816667CF10060278E /* OpenAL.framework in Frameworks */,
@@ -660,6 +660,7 @@
 				D3B887E216667CF10060278E /* iTunesArtwork */,
 			);
 			name = Resources;
+			path = ../../Shared/Resources;
 			sourceTree = "<group>";
 		};
 		D3B887E416667CF10060278E /* libs */ = {
@@ -674,7 +675,7 @@
 				D3B8891916667CF40060278E /* kazmath */,
 			);
 			name = libs;
-			path = ../../libs;
+			path = ../../Shared/libs;
 			sourceTree = "<group>";
 		};
 		D3B887E516667CF10060278E /* cocos2d */ = {
@@ -1233,7 +1234,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../libs/kazmath/include\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Shared/libs/kazmath/include\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1253,7 +1254,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../libs/kazmath/include\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Shared/libs/kazmath/include\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1269,11 +1270,10 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ChipmunkColorMatch/Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../libs/kazmath/include\"";
-				INFOPLIST_FILE = ChipmunkColorMatch/Resources/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/../Shared/Resources/Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../libs/ChipmunkPro-iPhone-Trial\"",
+					"\"$(SRCROOT)/../Shared/libs/ChipmunkPro-iPhone-Trial\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lz",
@@ -1292,11 +1292,10 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ChipmunkColorMatch/Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../libs/kazmath/include\"";
-				INFOPLIST_FILE = ChipmunkColorMatch/Resources/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/../Shared/Resources/Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../libs/ChipmunkPro-iPhone-Trial\"",
+					"\"$(SRCROOT)/../Shared/libs/ChipmunkPro-iPhone-Trial\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lz",

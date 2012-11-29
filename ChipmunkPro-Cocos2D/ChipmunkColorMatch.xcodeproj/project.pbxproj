@@ -216,7 +216,6 @@
 		D31032F41666A2F700310706 /* CocosDenshion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocosDenshion.m; sourceTree = "<group>"; };
 		D31032F51666A2F700310706 /* SimpleAudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine.h; sourceTree = "<group>"; };
 		D31032F61666A2F700310706 /* SimpleAudioEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine.m; sourceTree = "<group>"; };
-		D328E4821667069C003BC9D8 /* ChipmunkColorMatch copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ChipmunkColorMatch copy-Info.plist"; path = "/Users/slembcke/Development/ChipmunkExamples/ChipmunkColorMatch/ChipmunkPro-Cocos2D/ChipmunkColorMatch copy-Info.plist"; sourceTree = "<absolute>"; };
 		D360BC2E1666DA9100910412 /* pop.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = pop.plist; sourceTree = "<group>"; };
 		D360BC331666E13800910412 /* pop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop.wav; sourceTree = "<group>"; };
 		D360BC351666E37900910412 /* thump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = thump.wav; sourceTree = "<group>"; };
@@ -231,11 +230,11 @@
 		D3B887BF16667CF10060278E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D3B887C116667CF10060278E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		D3B887C316667CF10060278E /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
-		D3B887CF16667CF10060278E /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = Resources/fps_images.png; sourceTree = "<group>"; };
-		D3B887D116667CF10060278E /* fps_images-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fps_images-hd.png"; path = "Resources/fps_images-hd.png"; sourceTree = "<group>"; };
-		D3B887D316667CF10060278E /* fps_images-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fps_images-ipadhd.png"; path = "Resources/fps_images-ipadhd.png"; sourceTree = "<group>"; };
-		D3B887E116667CF10060278E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
-		D3B887E216667CF10060278E /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
+		D3B887CF16667CF10060278E /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fps_images.png; sourceTree = "<group>"; };
+		D3B887D116667CF10060278E /* fps_images-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fps_images-hd.png"; sourceTree = "<group>"; };
+		D3B887D316667CF10060278E /* fps_images-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fps_images-ipadhd.png"; sourceTree = "<group>"; };
+		D3B887E116667CF10060278E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3B887E216667CF10060278E /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		D3B887E616667CF10060278E /* CCAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAction.h; sourceTree = "<group>"; };
 		D3B887E716667CF10060278E /* CCAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCAction.m; sourceTree = "<group>"; };
 		D3B887E916667CF10060278E /* CCActionCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCActionCamera.h; sourceTree = "<group>"; };
@@ -599,7 +598,6 @@
 				D3B887C516667CF10060278E /* ChipmunkColorMatch */,
 				D3B887B216667CF10060278E /* Frameworks */,
 				D3B887B016667CF10060278E /* Products */,
-				D328E4821667069C003BC9D8 /* ChipmunkColorMatch copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -662,6 +660,7 @@
 				D3B887E216667CF10060278E /* iTunesArtwork */,
 			);
 			name = Resources;
+			path = ../../Shared/Resources;
 			sourceTree = "<group>";
 		};
 		D3B887E416667CF10060278E /* libs */ = {
@@ -676,7 +675,7 @@
 				D3B8891916667CF40060278E /* kazmath */,
 			);
 			name = libs;
-			path = ../../libs;
+			path = ../../Shared/libs;
 			sourceTree = "<group>";
 		};
 		D3B887E516667CF10060278E /* cocos2d */ = {
@@ -1235,7 +1234,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../libs/kazmath/include\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Shared/libs/kazmath/include\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1255,7 +1254,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../libs/kazmath/include\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Shared/libs/kazmath/include\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1271,11 +1270,10 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ChipmunkColorMatch/Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../libs/kazmath/include\"";
-				INFOPLIST_FILE = ChipmunkColorMatch/Resources/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/../Shared/Resources/Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../libs/ChipmunkPro-iPhone-Trial\"",
+					"\"$(SRCROOT)/../Shared/libs/ChipmunkPro-iPhone-Trial\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lz",
@@ -1294,11 +1292,10 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ChipmunkColorMatch/Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../libs/kazmath/include\"";
-				INFOPLIST_FILE = ChipmunkColorMatch/Resources/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/../Shared/Resources/Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../libs/ChipmunkPro-iPhone-Trial\"",
+					"\"$(SRCROOT)/../Shared/libs/ChipmunkPro-iPhone-Trial\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lz",
