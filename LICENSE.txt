@@ -18,3 +18,5 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+The Horse Party theme was originally created for our Mac/PC game, Crayon ball, by internet comic artist Nedroid (http://nedroid.com). His permission is required to reuse any of the graphical assets.
