@@ -253,8 +253,11 @@ const int TICKS_PER_SECOND = 120;
 	UITouch *touch = [touches anyObject];
 	cpVect point = [self convertTouchToNodeSpace:touch];
 	
-	// TODO need to filter out the border segments
-	ChipmunkNearestPointQueryInfo *info = [_space nearestPointQueryNearest:point maxDistance:10.0 layers:PhysicsBallOnlyBit group:CP_NO_GROUP];
+	// Perform a nearest point query to see what the closest shape to the touch is.
+	// It only finds shapes that are within fingerRadius distance though.
+	// Also, it is using PhysicsBallOnlyBit to filter out the results so it will only return a ball and not an edge shape.
+	cpFloat fingerRadius = 10.0;
+	ChipmunkNearestPointQueryInfo *info = [_space nearestPointQueryNearest:point maxDistance:fingerRadius layers:PhysicsBallOnlyBit group:CP_NO_GROUP];
 	if(info.shape){
 		Ball *ball = info.shape.data;
 		[self removeBall:ball];
