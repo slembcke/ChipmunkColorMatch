@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7522B0E3166964F20021706F /* ball_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 7522B0E2166964F20021706F /* ball_highlight.png */; };
 		D31032DA166689D900310706 /* libChipmunkPro-iPhone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D31032D8166689D900310706 /* libChipmunkPro-iPhone.a */; };
 		D31032DC166689E600310706 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D31032DB166689E600310706 /* ImageIO.framework */; };
 		D31032E7166691F400310706 /* Ball.m in Sources */ = {isa = PBXBuildFile; fileRef = D31032E6166691F400310706 /* Ball.m */; };
@@ -168,6 +169,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7522B0E2166964F20021706F /* ball_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball_highlight.png; sourceTree = "<group>"; };
 		D31032AF166689D900310706 /* chipmunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chipmunk.h; sourceTree = "<group>"; };
 		D31032B0166689D900310706 /* chipmunk_ffi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chipmunk_ffi.h; sourceTree = "<group>"; };
 		D31032B1166689D900310706 /* chipmunk_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chipmunk_private.h; sourceTree = "<group>"; };
@@ -227,7 +229,7 @@
 		D360BC331666E13800910412 /* pop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop.wav; sourceTree = "<group>"; };
 		D360BC351666E37900910412 /* thump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = thump.wav; sourceTree = "<group>"; };
 		D360BC361666E37900910412 /* ploop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ploop.wav; sourceTree = "<group>"; };
-		D3B887AF16667CF10060278E /* ChipmunkColorMatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChipmunkColorMatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3B887AF16667CF10060278E /* ChipmunkProColorMatchCocos2D.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChipmunkProColorMatchCocos2D.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3B887B316667CF10060278E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D3B887B516667CF10060278E /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		D3B887B716667CF10060278E /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -617,7 +619,7 @@
 		D3B887B016667CF10060278E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D3B887AF16667CF10060278E /* ChipmunkColorMatch.app */,
+				D3B887AF16667CF10060278E /* ChipmunkProColorMatchCocos2D.app */,
 				D3B8896116667E090060278E /* libCocos2D.a */,
 			);
 			name = Products;
@@ -662,6 +664,7 @@
 		D3B887C616667CF10060278E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7522B0E2166964F20021706F /* ball_highlight.png */,
 				D3F123F116687B7C00966F17 /* ball_0.png */,
 				D3F123F216687B7C00966F17 /* ball_1.png */,
 				D3F123F316687B7C00966F17 /* ball_2.png */,
@@ -1041,7 +1044,7 @@
 			);
 			name = ChipmunkColorMatch;
 			productName = ChipmunkColorMatch;
-			productReference = D3B887AF16667CF10060278E /* ChipmunkColorMatch.app */;
+			productReference = D3B887AF16667CF10060278E /* ChipmunkProColorMatchCocos2D.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D3B8896016667E090060278E /* Cocos2D */ = {
@@ -1112,6 +1115,7 @@
 				D3F123FA16687B7C00966F17 /* ball_3.png in Resources */,
 				D3F123FB16687B7C00966F17 /* ball_4.png in Resources */,
 				D3F123FC16687B7C00966F17 /* ball_5.png in Resources */,
+				7522B0E3166964F20021706F /* ball_highlight.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1307,7 +1311,7 @@
 					"-lz",
 					"-ObjC",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ChipmunkProColorMatchCocos2D;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1329,7 +1333,7 @@
 					"-lz",
 					"-ObjC",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ChipmunkProColorMatchCocos2D;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
