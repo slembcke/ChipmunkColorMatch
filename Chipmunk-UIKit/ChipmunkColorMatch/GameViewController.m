@@ -28,7 +28,7 @@
 @implementation GameViewController {
 	IBOutlet UIView *_foreground;
 	
-	ChipmunkSpace *_space;
+	cpSpace *_space;
 	
 	NSMutableArray *_balls;
 	CADisplayLink *_displayLink;
@@ -60,21 +60,38 @@
 	_balls = [NSMutableArray array];
 	
 	// Set up the physics space
-	_space = [[ChipmunkSpace alloc] init];
-	_space.gravity = cpv(0.0f, 500.0f);
+	_space = cpSpaceNew();
+	cpSpaceSetGravity(_space, cpv(0.0f, 500.0f));
 	// Allow collsion shapes to overlap by 2 pixels.
 	// This will make contacts pop on and off less, which helps it find matching groups better.
-	_space.collisionSlop = 2.0f;
+	cpSpaceSetCollisionSlop(_space, 2.0f);
 	
 	// Set up collision handlers for each of the colors.
-	for(cpCollisionType type in [Ball collisionTypes]){
-		// Call the markPair:space: method each time a collision is detected between two balls of the same color.
-		[_space addCollisionHandler:self typeA:type typeB:type begin:nil preSolve:@selector(markPair:space:) postSolve:nil separate:nil];
+	for(cpCollisionType i=1; i<=6; i++){
+		// Call the MarkPair function each time a collision is detected between two balls of the same color.
+		// self is passed as the last parameter of MarkPair.
+		cpSpaceAddCollisionHandler(_space, i, i, NULL, (cpCollisionBeginFunc)MarkPair, NULL, NULL, (__bridge void *)self);
 	}
 	
 	// Add bounds around the playfield
 	// This is a little goofy due to UIKit's "upside down" coordinate system.
-	[_space addBounds:CGRectMake(130, -871, 767, 1500) thickness:20 elasticity:1.0 friction:1.0 layers:CP_ALL_LAYERS group:CP_NO_GROUP collisionType:nil];
+	{ // (130, -871, 767, 1500)
+		cpShape *shape;
+		cpBody *staticBody = cpSpaceGetStaticBody(_space);
+		cpFloat radius = 20.0;
+		
+		shape = cpSpaceAddShape(_space, cpSegmentShapeNew(staticBody, cpv(130 - radius, -871 - radius), cpv(130 - radius, -871 + 1500 + radius), radius));
+		cpShapeSetFriction(shape, 1.0f);
+		cpShapeSetLayers(shape, PhysicsEdgeLayers);
+		
+		shape = cpSpaceAddShape(_space, cpSegmentShapeNew(staticBody, cpv(130 + 767 + radius, -871 - radius), cpv(130 + 767 + radius, -871 + 1500 + radius), radius));
+		cpShapeSetFriction(shape, 1.0f);
+		cpShapeSetLayers(shape, PhysicsEdgeLayers);
+		
+		shape = cpSpaceAddShape(_space, cpSegmentShapeNew(staticBody, cpv(130 - radius, -871 + 1500 + radius), cpv(130 + 767 + radius, -871 + 1500 + radius), radius));
+		cpShapeSetFriction(shape, 1.0f);
+		cpShapeSetLayers(shape, PhysicsEdgeLayers);
+	}
 }
 
 // Add a Ball object to the scene.
@@ -82,8 +99,8 @@
 {
 	[_balls addObject:ball];
 	
-	// The Ball class implements the ChipmunkObject protocol so you can add it directly to the space.
-	[_space add:ball];
+	// The addToSpace: method manually adds all the Chipmunk objects to the space.
+	[ball addToSpace:_space];
 	
 	// Add the ball's view to the scene.
 	[self.view insertSubview:ball.button belowSubview:_foreground];
@@ -95,23 +112,26 @@
 // This method should look suspiciously similar to addBall:
 -(void)removeBall:(Ball *)ball
 {
-	[_space remove:ball];
+	[ball removeFromSpace:_space];
+	
 	[ball.button removeFromSuperview];
 	
 	[_balls removeObject:ball];
 	ball.game = nil;
 }
 
-// This is the method that is called every time Chipmunk detects a collision between two like color balls.
--(bool)markPair:(cpArbiter *)arb space:(ChipmunkSpace *)space
+// This is the function that is called every time Chipmunk detects a collision between two like color balls.
+static cpBool
+MarkPair(cpArbiter *arb, cpSpace *space, GameViewController *self)
 {
 	// Get the two shapes involved in the collision.
 	// This macro defines the shapeA and shapeB variables for you.
-	CHIPMUNK_ARBITER_GET_BODIES(arb, shapeA, shapeB);
+	CP_ARBITER_GET_SHAPES(arb, shapeA, shapeB);
 	
 	// We set the shapes' data pointers to point to the ball that owns them.
-	Ball *ballA = shapeA.data;
-	Ball *ballB = shapeB.data;
+	// If you are using ARC, you need to use a bridged cast.
+	Ball *ballA = (__bridge Ball *)cpShapeGetUserData(shapeA);
+	Ball *ballB = (__bridge Ball *)cpShapeGetUserData(shapeB);
 	
 	// So the rest of the method is half of the implementation of the disjoint set forest algorithm.
 	// I won't further explain the algorithm here, but it's one of my favorites.
@@ -144,7 +164,7 @@ const int TICKS_PER_SECOND = 120;
 			// Give the ball a random position.
 			ball.pos = cpv(512.0f + 300.0f*frand_unit(), -100);
 			
-			if(![_space shapeTest:ball.shape]){
+			if(!cpSpaceShapeQuery(_space, ball.shape, NULL, NULL)){
 				// If the area is clear, add the ball and exit the loop.
 				[self addBall:ball];
 				break;
@@ -160,7 +180,7 @@ const int TICKS_PER_SECOND = 120;
 	
 	// Step the space forward in time.
 	// This is what actually makes the physics go.
-	[_space step:dt];
+	cpSpaceStep(_space, dt);
 	
 	// At this point Chipmunk called markPair:space: a bunch of times.
 	// Look for balls in components with 4 or more balls and remove them.

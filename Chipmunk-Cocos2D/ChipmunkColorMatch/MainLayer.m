@@ -103,7 +103,6 @@ static NSDictionary *PopParticles = nil;
 			cpShapeSetFriction(shape, 1.0f);
 			cpShapeSetLayers(shape, PhysicsEdgeLayers);
 		}
-//		[_space addBounds:CGRectMake(130, 139, 767, 1500) thickness:20 elasticity:1.0 friction:1.0 layers:CP_ALL_LAYERS group:CP_NO_GROUP collisionType:nil];
 		
 		// The debug node will draw an overlay of the physics shapes.
 		// Very useful for debugging so that you know your collision shapes and graphics line up.
@@ -136,7 +135,6 @@ static NSDictionary *PopParticles = nil;
 
 -(void)onEnter
 {
-	[CDAudioManager configure:kAMM_FxOnly];
 	[self scheduleUpdate];
 	[super onEnter];
 }
