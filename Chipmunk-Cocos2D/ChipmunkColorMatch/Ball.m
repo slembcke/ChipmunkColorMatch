@@ -94,26 +94,19 @@
 		// That way you can access the Ball object from Chipmunk callbacks and such.
 		cpShapeSetUserData(_shape, (__bridge void *)self);
 		
-		// Setup the sprites
-		CCTexture2D *balls = [[CCTextureCache sharedTextureCache] addImage:@"balls.png"];
-		float texSize = balls.contentSize.width/4.0f;
-		
-		int row = color/4;
-		int col = color%4;
-		
 		// So I noticed a bug in the CCPhysicsSprite class that ignored the scale of the sprite.
 		// I fixed that this project and will be sending a patch for it soon.
 		// Be aware that it might not work in mainline Cocos2D though.
 		
 		// The main sprite for the ball.
-		CCPhysicsSprite *sprite = [CCPhysicsSprite spriteWithFile:@"balls.png" rect:CGRectMake(col*texSize, row*texSize, texSize, texSize)];
+		CCPhysicsSprite *sprite = [CCPhysicsSprite spriteWithFile:[NSString stringWithFormat:@"ball_%d.png", color]];
 		sprite.body = _body;
-		sprite.scale = 2.0f*radius/(texSize - 8.0f);
+		sprite.scale = 2.0f*radius/(sprite.contentSize.width - 8.0f);
 		sprite.zOrder = Z_BALLS;
 		
 		// The highlight sprite overlain over the regular sprite.
 		// It's set to ignore the rotation of the body.
-		CCPhysicsSprite *highlight = [CCPhysicsSprite spriteWithFile:@"balls.png" rect:CGRectMake(3*texSize, 1*texSize, texSize, texSize)];
+		CCPhysicsSprite *highlight = [CCPhysicsSprite spriteWithFile:@"ball_highlight.png"];
 		highlight.body = _body;
 		highlight.ignoreBodyRotation = TRUE;
 		highlight.scale = sprite.scale;

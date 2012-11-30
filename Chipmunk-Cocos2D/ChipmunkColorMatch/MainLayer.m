@@ -66,10 +66,12 @@ static NSDictionary *PopParticles = nil;
 		// Create the array for the balls.
 		_balls = [NSMutableArray array];
 		
-		// Force the balls texture to be trilinear filtered for better texture scaling quality.
-		CCTexture2D *balls = [[CCTextureCache sharedTextureCache] addImage:@"balls.png"];
-		[balls generateMipmap];
-		[balls setTexParameters:(ccTexParams[]){{GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT}}];
+		// Force the ball textures to be trilinear filtered for better texture scaling quality.
+		for(int i=0; i<6; i++){
+			CCTexture2D *tex = [[CCTextureCache sharedTextureCache] addImage:[NSString stringWithFormat:@"ball_%d.png", i]];
+			[tex generateMipmap];
+			[tex setTexParameters:(ccTexParams[]){{GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT}}];
+		}
 		
 		// Set up the physics space
 		_space = cpSpaceNew();
