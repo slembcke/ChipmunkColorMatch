@@ -30,7 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D328E49B16671595003BC9D8 /* ChipmunkColorMatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChipmunkColorMatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D328E49B16671595003BC9D8 /* ChipmunkProColorMatchUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChipmunkProColorMatchUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D328E49F16671595003BC9D8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D328E4A116671595003BC9D8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D328E4A316671595003BC9D8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -130,7 +130,7 @@
 		D328E49C16671595003BC9D8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D328E49B16671595003BC9D8 /* ChipmunkColorMatch.app */,
+				D328E49B16671595003BC9D8 /* ChipmunkProColorMatchUIKit.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -265,7 +265,7 @@
 			);
 			name = ChipmunkColorMatch;
 			productName = ChipmunkColorMatch;
-			productReference = D328E49B16671595003BC9D8 /* ChipmunkColorMatch.app */;
+			productReference = D328E49B16671595003BC9D8 /* ChipmunkProColorMatchUIKit.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -404,7 +404,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../Shared/libs/ChipmunkPro-iPhone-Trial\"",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ChipmunkProColorMatchUIKit;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -420,7 +420,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../Shared/libs/ChipmunkPro-iPhone-Trial\"",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ChipmunkProColorMatchUIKit;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
