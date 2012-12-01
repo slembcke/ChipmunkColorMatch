@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Chipmunk Game Dynamics Documentation</title>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css" />
+	</head>
+	<body>
+
+<img src="images/logo1_med.png" alt="" /> <a href="http://howlingmoonsoftware.com"><img src="images/hms_logo.png" style="float:right;" alt="" /></a>
+
+<h1>Chipmunk Color Match:</h1>
+
+<img src="images/final.png" />
+
+<p>This tutorial shows you how to create a simple color matching game with Chipmunk Pro and Cocos2D 2.1. It assumes you know the basics about Chipmunk such as how to create spaces, bodies and shapes. You might want to read up on some of the documentation or the Chipmunk Basics tutorial on the <a href="http://chipmunk-physics.net/documentation.php">documentation page</a>.</p>
+
+<p><em>TODO: I either haven't made the Chipmunk Basics tutorial yet or forgot to remove this reminder to myself. Please send me an email if I've forgotten. ;)</em></p>
+
+<p><strong>You can download this tutorial and all the project files from the <a href="https://github.com/slembcke/ChipmunkColorMatch">GitHub page</a>. It also contains alternate projects using UIKit and regular (non-Pro) Chipmunk.</strong></p>
+
+<h2>What Do You Need to Know First?</h2>
+
+<p>This tutorial assumes you have some prior experience with Cocos2D development. It doesn't go into how Cocos2D itself works, although the project is simple enough you can probably figure it out as you go.</p>
+
+<h2>What is Chipmunk?</h2>
+
+<p>Chipmunk is a 2D rigid body physics library distributed under the MIT license. It is intended to be fast, portable, numerically stable, and easy to use. For this reason it's been used in hundreds of games on just about every system you could name. This includes a lot of successful games such as Waking Mars, Night Sky, Zombie Smash, Feed Me Oil and many others. I've put thousands of hours of work over many years to make Chipmunk what it is today. Check out Chipmunk's <a href="http://chipmunk-physics.net">website</a> for more information.</p>
+
+<h2>What is Objective-Chipmunk and Chipmunk Pro?</h2>
+
+<p>Objective-Chipmunk is an Objective-C wrapper for the Chipmunk Physics Library distributed as part of Chipmunk Pro and Chipmunk Indie. While Chipmunk's C API is pretty easy to use, the Objective-C API is even better. The primary advantages of a native Objective-C API include integrating with the Cocoa memory management model (including ARC) and the Chipmunk Object protocol. The Chipmunk Object protocol unifies the basic Chipmunk types as well as making it easy to create custom composite collections of the basic types. Additionally, the wrapper adds many convenience methods for doing common setup tasks as well as helper methods that integrate it with the rest of the Cocoa Touch API. The wrapper tries to do things the Objective-C way, adding useful method variations where it makes sense to do so.</p>
+
+<p>You can find out more information on <a href="http://chipmunk-physics.net">Chipmunk's website</a>. While Objective-Chipmunk is not free like Chipmunk is, the enhanced API will almost certainly save you time and money. You'll also be helping to support further Chipmunk development!</p>
+
+<h1>Let's get started!</h1>
+
+<p>As I said earlier, it's assumed that you already know how to create a Cocos2D project, and how some of the basic Cocos2D things like scenes and such work. I won't bore you with that by repeating how to do it here. There are many many tutorials on that already. One thing to note is that I'm using ARC in this project. So you might want to read up on how to do that in a Cocos2D project as the templates aren't made for it by default.</p>
+
+<h2>The [MainLayer init] method:</h2>
+
+<p>Anyway. Following along in <code>MainLayer.m</code>; Let's start by looking at the <code>init</code> method. First it starts out by setting up some Cocos stuff (enabling touch, creating the foreground/background sprites, and forcing high quality texture filtering for the balls. I won't paste the code here as it's not related to the physics really.</p>
+
+<p>Next it does the basic setup of the space. The collision slop is the amout of overlap that objects are allowed to have. Increasing it makes it more likely that that they will stay in contact over many frames. That's desirable for this game because if the contacts kept appearing and disapearing it would affect the ability of the game to find groups of colors to match out. It might take a few frames for all of the contacts to be active at the same time. The default value of the collision slop is 0.1, which is reasonable to keep the contact solution stable, but not enough for visible overlap if you are using pixels as your distance units. In general, setting colision slop as high as you can without causing visible overlap will make your simulation run a little more stable.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <span style="color:#236e25;"><em>// Set up the physics space
+</em></span>    _space = [[ChipmunkSpace <strong><span style="color:#ff0000;">alloc</span></strong>] <span style="color:#6c0540;">init</span>];
+    _space.gravity = <span style="color:#003369;">cpv</span>(<span style="color:#0000ff;">0.0f</span>, <span style="color:#0000ff;">-500.0f</span>);
+    <span style="color:#236e25;"><em>// Allow collsion shapes to overlap by 2 pixels.
+</em></span>    <span style="color:#236e25;"><em>// This will make contacts pop on and off less, which helps it find matching groups better.
+</em></span>    _space.collisionSlop = <span style="color:#0000ff;">2.0f</span>;
+</pre>
+
+<p>Next up, we add the collision handler callbacks. In Objective-Chipmunk, this takes the form of a target and set of selectors. A collision handler is a set of methods to call for various events when two shapes that are tagged with specific collision type identifiers collide. This lets you only register for the collisions that you are interested in, like a player touching a monster instead of having to process every collision that ever occurs.</p>
+
+<p>What we are doing here is iterating the collision types of the balls and registering a callback when two balls of the same color touch. We only want to get callbacks for the preSolve events which are called every frame, so the rest of the selectors are <code>nil</code>. You'll see what the <code>markPair:space:</code> method does later.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <span style="color:#236e25;"><em>// Set up collision handlers for each of the colors.
+</em></span>    <strong><span style="color:#881350;">for</span></strong>(cpCollisionType type in [Ball <span style="color:#6c0540;">collisionTypes</span>]){
+      <span style="color:#236e25;"><em>// Call the markPair:space: method each time a collision is detected between two balls of the same color.
+</em></span>      [_space <span style="color:#6c0540;">addCollisionHandler:</span><strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">typeA:</span>type <span style="color:#6c0540;">typeB:</span>type <span style="color:#6c0540;">begin:</span><strong><span style="color:#881350;">nil</span></strong> <span style="color:#6c0540;">preSolve:</span><strong><span style="color:#881350;">@selector</span></strong>(markPair:space:) <span style="color:#6c0540;">postSolve:</span><strong><span style="color:#881350;">nil</span></strong> <span style="color:#6c0540;">separate:</span><strong><span style="color:#881350;">nil</span></strong>];
+    }
+</pre>
+
+<p>There is a nice convenience method in Objective-Chipmunk for putting segment shapes around the edges of a box. Remember how the edge shapes have their layers property set to <code>PhysicsEdgeLayers</code>. We'll talk about that more later when processing the touch events.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <span style="color:#236e25;"><em>// Add bounds around the playfield
+</em></span>    [_space <span style="color:#6c0540;">addBounds:</span><span style="color:#400080;"><em>CGRectMake</em></span>(<span style="color:#0000ff;">130</span>, <span style="color:#0000ff;">139</span>, <span style="color:#0000ff;">767</span>, <span style="color:#0000ff;">1500</span>) <span style="color:#6c0540;">thickness:</span><span style="color:#0000ff;">20</span> <span style="color:#6c0540;">elasticity:</span><span style="color:#0000ff;">1.0</span> <span style="color:#6c0540;">friction:</span><span style="color:#0000ff;">1.0</span> <span style="color:#6c0540;">layers:</span>PhysicsEdgeLayers <span style="color:#6c0540;">group:</span>CP_NO_GROUP <span style="color:#6c0540;">collisionType:</span><strong><span style="color:#881350;">nil</span></strong>];
+</pre>
+
+<p>Cocos2D v2.1 and up now ships with two handy classes that I wrote named <code>CCPhysicsDebugNode</code> and <code>CCPhysicsSprite</code>. CCPhysicsDebugNode is really useful when you are developing your game so you can see that your collision shapes and joints line up with your graphics in the way you expect. CCPhysicsSprite is a CCSprite subclass that automatically follows a rigid body. We'll discuss this class more later.</p>
+
+<p>The last thing in the <code>init</code> method is to create the CCPhysicsDebugNode to draw the collision shapes. I made it invisible by default as it gets in the way of the game. There is also some Cocos2D menu code following this to toggle the visibility.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <span style="color:#236e25;"><em>// The debug node will draw an overlay of the physics shapes.
+</em></span>    <span style="color:#236e25;"><em>// Very useful for debugging so that you know your collision shapes and graphics line up.
+</em></span>    CCPhysicsDebugNode *debugNode = [CCPhysicsDebugNode <span style="color:#6c0540;">debugNodeForChipmunkSpace:</span>_space];
+    debugNode.visible = FALSE;
+    [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">addChild:</span>debugNode <span style="color:#6c0540;">z:</span>Z_PHYSICS_DEBUG];
+</pre>
+
+<h2>The [MainLayer addBall:] and [MainLayer removeBall:] methods:</h2>
+
+<p>The <code>addBall:</code> method is pretty straightforward. It adds the ball to <code>_balls</code> array, add's the ball to the space and add's the sprites for the ball to the scene. Each ball has two sprites. The base sprite, and a second sprite that overlays it to give a shading effect.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// Add a Ball object to the scene.
+</em></span>-(<strong><span style="color:#881350;">void</span></strong>)<span style="color:#6c0540;">addBall:</span>(Ball *)ball
+{
+  [_balls <span style="color:#6c0540;">addObject:</span>ball];
+  
+  <span style="color:#236e25;"><em>// The Ball class implements the ChipmunkObject protocol so you can add it directly to the space.
+</em></span>  [_space <span style="color:#6c0540;">add:</span>ball];
+  
+  <span style="color:#236e25;"><em>// Add each sprite for the ball to the scene.
+</em></span>  <strong><span style="color:#881350;">for</span></strong>(CCNode *node in ball.sprites){
+    [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">addChild:</span>node];
+  }
+}
+</pre>
+
+<p>The <code>removeBall:</code> method shouldn't have any surprises. Particle effects are good, so I threw in some confetti particles.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// This method should look suspiciously similar to addBall:
+</em></span>-(<strong><span style="color:#881350;">void</span></strong>)<span style="color:#6c0540;">removeBall:</span>(Ball *)ball
+{
+  [_space <span style="color:#6c0540;">remove:</span>ball];
+  
+  <strong><span style="color:#881350;">for</span></strong>(CCNode *node in ball.sprites){
+    [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">removeChild:</span>node];
+  }
+  
+  [_balls <span style="color:#6c0540;">removeObject:</span>ball];
+  
+  <span style="color:#236e25;"><em>// Draw the confetti particles whenever a ball is removed.
+</em></span>  CCParticleSystem *particles = [[CCParticleSystemQuad <strong><span style="color:#ff0000;">alloc</span></strong>] <span style="color:#6c0540;">initWithDictionary:</span>PopParticles];
+  particles.position = ball.pos;
+  particles.autoRemoveOnFinish = TRUE;
+  [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">addChild:</span>particles <span style="color:#6c0540;">z:</span>Z_PARTICLES];
+}
+</pre>
+
+<h2>The [MainLayer update:] method:</h2>
+
+<p>Now let's skip ahead to the <code>update:</code> method. This is the method that Cocos2D calls each time before it draws a frame. The <code>dt</code> variable that it passes is usually going to be about 1/60th of a second, but it's never quite consistent. This is somewhat undesirable for the physics. It's not a good practice to update the physics with these variable sized timesteps because sometimes the CPU might be busy for a few frames. Then the next time you update the physics enough time may have passed so that objects can pass through each other. It also makes the gameplay very non-deterministic and it will act a little differently depending on the framerate.</p>
+
+<p>Instead, you'll want to implement a fixed timestep with Chipmunk. This is really easy to do. I usually do this in <em>all</em> of my games, not just physics ones for the same reasons. Keep the code that only needs to be ran to update graphics in <code>update:</code> and create a separate <code>tick:</code> method that handles all the game logic and runs with a fixed timestep. If you want to know more about fixed timesteps, the article in the comment below is a good resource.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// This is the update method called by Cocos2D each time it draws a frame.
+// It implements a fixed timestep to keep the physics running smoothly and deterministically.
+// Using a fixed timestep is *highly* recommended with Chipmunk.
+// A good article on fixed timesteps can be found here: </em></span><span style="color:#0000ff;">http://gafferongames.com/game-physics/fix-your-timestep/</span><span style="color:#236e25;"><em>
+// I consider extrapolation/interpolation to be fairly optional unless the tickrate is slower than the framerate.
+</em></span>-(<strong><span style="color:#881350;">void</span></strong>)<span style="color:#6c0540;">update:</span>(ccTime)dt
+{
+  ccTime fixed_dt = <span style="color:#0000ff;">1.0</span>/(ccTime)<span style="color:#6c0540;">TICKS_PER_SECOND</span>;
+  
+  <span style="color:#236e25;"><em>// Add the current dynamic timestep to the accumulator.
+</em></span>  _accumulator += dt;
+  <span style="color:#236e25;"><em>// Subtract off fixed-sized chunks of time from the accumulator and tick
+</em></span>  <strong><span style="color:#881350;">while</span></strong>(_accumulator &gt; fixed_dt){
+    [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">tick:</span>fixed_dt];
+    _accumulator -= fixed_dt;
+  }
+}
+</pre>
+
+<h2>The [MainLayer tick:] method:</h2>
+
+<p>So then the <code>tick:</code> method is the code that runs with a fixed timestep, independent of the framerate. So far in the game we have an empty playing field without any balls in it. It would be nice if it filled up slowly over time until there were a set number of balls onscreen. An easy way to do that is to check the number of balls and add one every few frames if the number is below some amount. Additionally, it tries to insert the ball into the playing field at an empty spot. <code>[ChipmunkSpace shapeTest:]</code> returns true if the shape is overlapping something else in the space given the regular collision filtering rules.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// The tick: method is the fixed timestep. See update: for more information.
+</em></span>-(<strong><span style="color:#881350;">void</span></strong>)<span style="color:#6c0540;">tick:</span>(ccTime)dt
+{
+  <span style="color:#236e25;"><em>// Attempt to add a ball every 6 ticks if the playfield has less than 70 balls.
+</em></span>  <strong><span style="color:#881350;">if</span></strong>(_ticks%<span style="color:#0000ff;">6</span> == <span style="color:#0000ff;">0</span> &amp;&amp; _balls.count &lt; <span style="color:#0000ff;">70</span>){
+    Ball *ball = [Ball <span style="color:#6c0540;">ball</span>];
+    
+    <span style="color:#236e25;"><em>// Try up to 10 times to find a clear spot to insert the ball.
+</em></span>    <strong><span style="color:#881350;">for</span></strong>(<strong><span style="color:#881350;">int</span></strong> i=<span style="color:#0000ff;">0</span>; i&lt;<span style="color:#0000ff;">10</span>; i++){
+      <span style="color:#236e25;"><em>// Give the ball a random position.
+</em></span>      ball.pos = <span style="color:#003369;">cpv</span>(<span style="color:#0000ff;">512.0f</span> + <span style="color:#0000ff;">300.0f</span>*<span style="color:#003369;">frand_unit</span>(), <span style="color:#0000ff;">1000.0f</span>);
+      
+      <strong><span style="color:#881350;">if</span></strong>(![_space <span style="color:#6c0540;">shapeTest:</span>ball.shape]){
+        <span style="color:#236e25;"><em>// If the area is clear, add the ball and exit the loop.
+</em></span>        [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">addBall:</span>ball];
+        <strong><span style="color:#881350;">break</span></strong>;
+      }
+    }
+  }
+</pre>
+
+<p>While Chipmunk will be passing information on which balls are touching back to our game, we still need a way to detect when a group of balls are touching. To do that, I'll be using the disjoint set forest algorithm. I won't go into too much detail on how it works in the tutorial, but you can find out more information from the <a href="http://en.wikipedia.org/wiki/Disjoint_set_forest#Disjoint-set_forests">wikipedia page</a>. Before having Chipmunk call <code>markPair:space:</code> to tell us which balls are touching, we need to reset the properties back to their default states.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">  <span style="color:#236e25;"><em>// Reset the component properties
+</em></span>  <strong><span style="color:#881350;">for</span></strong>(Ball *ball in _balls){
+    ball.componentCount = <span style="color:#0000ff;">1</span>;
+    ball.componentRoot = ball;
+  }
+</pre>
+
+<p>Now we can update the space by telling it to step forward in time by the amount of time for the fixed timestep. This is also when Chipmunk calls all the collision handler callbacks, one for each pair of shapes that match a collision handler definition. There is also a default collision handler that you can define if you want to process all the other collisions as well, but this is rarely needed.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">  <span style="color:#236e25;"><em>// Step the space forward in time.
+</em></span>  <span style="color:#236e25;"><em>// This is what actually makes the physics go.
+</em></span>  [_space <span style="color:#6c0540;">step:</span>dt];
+</pre>
+
+<p>At this point, Chipmunk has called the <code>markPair:space</code> method a bunch of times. All the information about what group balls are in, and how many balls in each group will be filled in for us. All we need to do then is to iterate all the balls and check if their group has more than 4 balls in it. If so remove the ball and make a pop noise for each one. I like to bend the pitch up or down a few notes for variety.</p>
+
+<p>Notice that I'm iterating a copy of the <code>_balls</code> array. There are very few data structures where it's safe to remove objects while iterating. NSMutableArray is no exception. Making a copy of the array to iterate is the simplest solution. People usually get strangely worried about the performance impact of doing this, but it's really a non-issue most of the time. Check the profiler if you don't believe me. ;)</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">  <span style="color:#236e25;"><em>// At this point Chipmunk called markPair:space: a bunch of times.
+</em></span>  <span style="color:#236e25;"><em>// Look for balls in components with 4 or more balls and remove them.
+</em></span>  <span style="color:#236e25;"><em>// Not that I'm iterating a copy of the _balls array.
+</em></span>  <span style="color:#236e25;"><em>// You can't remove objects from an array while iterating it.
+</em></span>  <strong><span style="color:#881350;">for</span></strong>(Ball *ball in [_balls <strong><span style="color:#ff0000;">copy</span></strong>]){
+    <span style="color:#236e25;"><em>// Get the component's root and check the count.
+</em></span>    Ball *root = ball.componentRoot;
+    <strong><span style="color:#881350;">if</span></strong>(root.componentCount &gt;= <span style="color:#0000ff;">4</span>){
+      [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">removeBall:</span>ball];
+      
+      <span style="color:#236e25;"><em>// Play a pop noise.
+</em></span>      <strong><span style="color:#881350;">int</span></strong> half_steps = (<span style="color:#003369;">arc4random</span>()%(<span style="color:#0000ff;">2</span>*<span style="color:#0000ff;">4</span> + <span style="color:#0000ff;">1</span>) - <span style="color:#0000ff;">4</span>);
+      <strong><span style="color:#881350;">float</span></strong> pitch = <span style="color:#003369;">pow</span>(<span style="color:#0000ff;">2.0f</span>, half_steps/<span style="color:#0000ff;">12.0f</span>);
+      [[SimpleAudioEngine <span style="color:#6c0540;">sharedEngine</span>] <span style="color:#6c0540;">playEffect:</span><span style="color:#760f15;">@&quot;ploop.wav&quot;</span> <span style="color:#6c0540;">pitch:</span>pitch <span style="color:#6c0540;">pan:</span><span style="color:#0000ff;">0.0</span> <span style="color:#6c0540;">gain:</span><span style="color:#0000ff;">1.0</span>];
+    }
+  }
+  
+  _ticks++;
+}
+</pre>
+
+<h2>The [MainLayer update:] method:</h2>
+
+<p></p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// This method removes balls when you touch them.
+</em></span>-(<strong><span style="color:#881350;">void</span></strong>)<span style="color:#6c0540;">ccTouchesBegan:</span>(<span style="color:#400080;">NSSet</span> *)touches <span style="color:#6c0540;">withEvent:</span>(<span style="color:#400080;"><em>UIEvent</em></span> *)event
+{
+  <span style="color:#236e25;"><em>// Convert the touch position to the correct coordinate system.
+</em></span>  <span style="color:#400080;"><em>UITouch</em></span> *touch = [touches <span style="color:#6c0540;">anyObject</span>];
+  cpVect point = [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">convertTouchToNodeSpace:</span>touch];
+  
+  <span style="color:#236e25;"><em>// Perform a nearest point query to see what the closest shape to the touch is.
+</em></span>  <span style="color:#236e25;"><em>// It only finds shapes that are within fingerRadius distance though.
+</em></span>  <span style="color:#236e25;"><em>// Also, it is using PhysicsBallOnlyBit to filter out the results so it will only return a ball and not an edge shape.
+</em></span>  cpFloat fingerRadius = <span style="color:#0000ff;">10.0</span>;
+  ChipmunkNearestPointQueryInfo *info = [_space <span style="color:#6c0540;">nearestPointQueryNearest:</span>point <span style="color:#6c0540;">maxDistance:</span>fingerRadius <span style="color:#6c0540;">layers:</span>PhysicsBallOnlyBit <span style="color:#6c0540;">group:</span>CP_NO_GROUP];
+  <strong><span style="color:#881350;">if</span></strong>(info.shape){
+    Ball *ball = info.shape.data;
+    [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">removeBall:</span>ball];
+    
+    <strong><span style="color:#881350;">int</span></strong> half_steps = (<span style="color:#003369;">arc4random</span>()%(<span style="color:#0000ff;">2</span>*<span style="color:#0000ff;">4</span> + <span style="color:#0000ff;">1</span>) - <span style="color:#0000ff;">4</span>);
+    <strong><span style="color:#881350;">float</span></strong> pitch = <span style="color:#003369;">pow</span>(<span style="color:#0000ff;">2.0f</span>, half_steps/<span style="color:#0000ff;">12.0f</span>);
+    [[SimpleAudioEngine <span style="color:#6c0540;">sharedEngine</span>] <span style="color:#6c0540;">playEffect:</span><span style="color:#760f15;">@&quot;pop.wav&quot;</span> <span style="color:#6c0540;">pitch:</span>pitch <span style="color:#6c0540;">pan:</span><span style="color:#0000ff;">0.0</span> <span style="color:#6c0540;">gain:</span><span style="color:#0000ff;">1.0</span>];
+  }
+}
+</pre>
+
+<h2>The [MainLayer markPain:space:] method:</h2>
+
+<p>TODO</p>
+
+<h2>The [MainLayer ccTouchesBegan:withEvent:] method:</h2>
+
+<p>The only remaining game logic to implement in the layer is the user input. Cocos2D provides methods for converting input coordinates. Then all you need to do is to use that point to query Chipmunk for the nearest ball shape. TODO talk about layers here.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// This method removes balls when you touch them.
+</em></span>-(<strong><span style="color:#881350;">void</span></strong>)<span style="color:#6c0540;">ccTouchesBegan:</span>(<span style="color:#400080;">NSSet</span> *)touches <span style="color:#6c0540;">withEvent:</span>(<span style="color:#400080;"><em>UIEvent</em></span> *)event
+{
+  <span style="color:#236e25;"><em>// Convert the touch position to the correct coordinate system.
+</em></span>  <span style="color:#400080;"><em>UITouch</em></span> *touch = [touches <span style="color:#6c0540;">anyObject</span>];
+  cpVect point = [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">convertTouchToNodeSpace:</span>touch];
+  
+  <span style="color:#236e25;"><em>// Perform a nearest point query to see what the closest shape to the touch is.
+</em></span>  <span style="color:#236e25;"><em>// It only finds shapes that are within fingerRadius distance though.
+</em></span>  <span style="color:#236e25;"><em>// Also, it is using PhysicsBallOnlyBit to filter out the results so it will only return a ball and not an edge shape.
+</em></span>  cpFloat fingerRadius = <span style="color:#0000ff;">10.0</span>;
+  ChipmunkNearestPointQueryInfo *info = [_space <span style="color:#6c0540;">nearestPointQueryNearest:</span>point <span style="color:#6c0540;">maxDistance:</span>fingerRadius <span style="color:#6c0540;">layers:</span>PhysicsBallOnlyBit <span style="color:#6c0540;">group:</span>CP_NO_GROUP];
+  <strong><span style="color:#881350;">if</span></strong>(info.shape){
+    Ball *ball = info.shape.data;
+    [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">removeBall:</span>ball];
+    
+    <strong><span style="color:#881350;">int</span></strong> half_steps = (<span style="color:#003369;">arc4random</span>()%(<span style="color:#0000ff;">2</span>*<span style="color:#0000ff;">4</span> + <span style="color:#0000ff;">1</span>) - <span style="color:#0000ff;">4</span>);
+    <strong><span style="color:#881350;">float</span></strong> pitch = <span style="color:#003369;">pow</span>(<span style="color:#0000ff;">2.0f</span>, half_steps/<span style="color:#0000ff;">12.0f</span>);
+    [[SimpleAudioEngine <span style="color:#6c0540;">sharedEngine</span>] <span style="color:#6c0540;">playEffect:</span><span style="color:#760f15;">@&quot;pop.wav&quot;</span> <span style="color:#6c0540;">pitch:</span>pitch <span style="color:#6c0540;">pan:</span><span style="color:#0000ff;">0.0</span> <span style="color:#6c0540;">gain:</span><span style="color:#0000ff;">1.0</span>];
+  }
+}
+</pre>
+
+<h2>TODO The [Ball everyMethod] method:</h2>
+
+	</body>
+</html>
