@@ -37,7 +37,8 @@
 
 <p>As I said earlier, it's assumed that you already know how to create a Cocos2D project, and how some of the basic Cocos2D things like scenes and such work. I won't bore you with that by repeating how to do it here. There are many many tutorials on that already. One thing to note is that I'm using ARC in this project. So you might want to read up on how to do that in a Cocos2D project as the templates aren't made for it by default.</p>
 
-<h2>The [MainLayer init] method:</h2>
+<h2>Ball.m</h2>
+<h3>The [MainLayer init] method:</h3>
 
 <p>Anyway. Following along in <code>MainLayer.m</code>; Let's start by looking at the <code>init</code> method. First it starts out by setting up some Cocos stuff (enabling touch, creating the foreground/background sprites, and forcing high quality texture filtering for the balls. I won't paste the code here as it's not related to the physics really.</p>
 
@@ -79,7 +80,7 @@
     [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">addChild:</span>debugNode <span style="color:#6c0540;">z:</span>Z_PHYSICS_DEBUG];
 </pre>
 
-<h2>The [MainLayer addBall:] and [MainLayer removeBall:] methods:</h2>
+<h3>The [MainLayer addBall:] and [MainLayer removeBall:] methods:</h3>
 
 <p>The <code>addBall:</code> method is pretty straightforward. It adds the ball to <code>_balls</code> array, add's the ball to the space and add's the sprites for the ball to the scene. Each ball has two sprites. The base sprite, and a second sprite that overlays it to give a shading effect.</p>
 
@@ -119,7 +120,7 @@
 }
 </pre>
 
-<h2>The [MainLayer update:] method:</h2>
+<h3>The [MainLayer update:] method:</h3>
 
 <p>Now let's skip ahead to the <code>update:</code> method. This is the method that Cocos2D calls each time before it draws a frame. The <code>dt</code> variable that it passes is usually going to be about 1/60th of a second, but it's never quite consistent. This is somewhat undesirable for the physics. It's not a good practice to update the physics with these variable sized timesteps because sometimes the CPU might be busy for a few frames. Then the next time you update the physics enough time may have passed so that objects can pass through each other. It also makes the gameplay very non-deterministic and it will act a little differently depending on the framerate.</p>
 
@@ -144,7 +145,7 @@
 }
 </pre>
 
-<h2>The [MainLayer tick:] method:</h2>
+<h3>The [MainLayer tick:] method:</h3>
 
 <p>So then the <code>tick:</code> method is the code that runs with a fixed timestep, independent of the framerate. So far in the game we have an empty playing field without any balls in it. It would be nice if it filled up slowly over time until there were a set number of balls onscreen. An easy way to do that is to check the number of balls and add one every few frames if the number is below some amount. Additionally, it tries to insert the ball into the playing field at an empty spot. <code>[ChipmunkSpace shapeTest:]</code> returns true if the shape is overlapping something else in the space given the regular collision filtering rules.</p>
 
@@ -210,38 +211,55 @@
 }
 </pre>
 
-<h2>The [MainLayer update:] method:</h2>
+<h3>The [MainLayer markPairs:space:] method:</h3>
 
-<p></p>
+<p>Now we need to implement the <code>markPairs:space:</code> method that we used with the collision handlers earlier. This is the method that will be doing all the work to figure out how big our groups of colors are.</p>
 
-<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// This method removes balls when you touch them.
-</em></span>-(<strong><span style="color:#881350;">void</span></strong>)<span style="color:#6c0540;">ccTouchesBegan:</span>(<span style="color:#400080;">NSSet</span> *)touches <span style="color:#6c0540;">withEvent:</span>(<span style="color:#400080;"><em>UIEvent</em></span> *)event
+<p>Chipmunk collision handler methods take a pointer to a cpArbiter C struct and the ChipmunkSpace object that the collision handler was registered with. The cpArbiter pointer is to a C struct instead of an Objective-C object is for a couple reasons. First, Chipmunk's C code manages the memory for cpArbiters, and it's an error to store the pointer anywhere. The other reason is for performance. Chipmunk pools a lot of cpArbiters, discarding and reusing them constantly. Creating an Objective-C object every time to wrap them would be very expensive. Lastly, begin and preSolve collision handler callbacks must return a boolean value. For begin callbacks, returning false means to ignore the collision until separate is called. The preSolve and postSolve callbacks will never be called and there will be no collision response. Returning false from a preSolve callback means to ignore the collision response for the current step only. This gives you a very powerful way to filter collisions dynamically. In this game, we want to return true all the time so the collisions are processed normally.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">-(bool)<span style="color:#6c0540;">markPair:</span>(cpArbiter *)arb <span style="color:#6c0540;">space:</span>(ChipmunkSpace *)space
 {
-  <span style="color:#236e25;"><em>// Convert the touch position to the correct coordinate system.
-</em></span>  <span style="color:#400080;"><em>UITouch</em></span> *touch = [touches <span style="color:#6c0540;">anyObject</span>];
-  cpVect point = [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">convertTouchToNodeSpace:</span>touch];
+</pre>
+
+<p>Generally the first thing you want to do in a collision handler callback is get the shapes or bodies involved in the collision. Objective-Chipmunk provides two macro functions to help with that. <code>CHIPMUNK_ARBITER_GET_BODIES()</code> and <code>CHIPMUNK_ARBITER_GET_SHAPES()</code>. Both macros take a <code>cpArbiter *</code> and the names of the two variables it should define. The collision types of the colliding shapes will have the same order as when the collision handler was defined. In this case, we are looking for the times when two balls of the same collision type (their color) collide so the order is unimportant.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">  <span style="color:#236e25;"><em>// Get the two shapes involved in the collision.
+</em></span>  <span style="color:#236e25;"><em>// This macro defines the shapeA and shapeB variables for you.
+</em></span>  <span style="color:#003369;">CHIPMUNK_ARBITER_GET_BODIES</span>(arb, shapeA, shapeB);
+</pre>
+
+<p>If you could only get information on the physics objects that were involved in the collision, you wouldn't be able to do much. For that reason, nearly every Chipmunk object has a data pointer that you can assign to something related to that object, generally the game object that owns it. As you'll see later, we set the data pointers for the ball's body and shape to the ball object itself. We need the ball object pointers as that's where we store the grouping information.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">  <span style="color:#236e25;"><em>// We set the shapes' data pointers to point to the ball that owns them.
+</em></span>  Ball *ballA = shapeA.data;
+  Ball *ballB = shapeB.data;
+</pre>
+
+<p>To find the groups, I'm using the <a href="http://en.wikipedia.org/wiki/Disjoint_set_forest#Disjoint-set_forests">disjoint-set forest algorithm</a>. The short explanation is that each group of colored balls is identified by a (random) ball in the group. That ball becomes the root and stores the count of the balls in the group. It starts out with each ball being it's own group (and each ball it's own root). Then as <code>markPair:space:</code> is called once for each pair of touching balls, you merge their groups randomly picking one of the existing roots as the new root. Once all of the touching pairs have been identified, all the balls in the same group will have the same root, and the root will contain the correct count of balls in the group. A very simple, if a little tricky algorithm. Now back in the <code>tick:</code> method it can iterate the balls and remove the ones in groups of more than 4.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">  <span style="color:#236e25;"><em>// So the rest of the method is half of the implementation of the disjoint set forest algorithm.
+</em></span>  <span style="color:#236e25;"><em>// I won't further explain the algorithm here, but it's one of my favorites.
+</em></span>  <span style="color:#236e25;"><em>// I use it within Chipmunk itself to find groups of sleeping objects.
+</em></span>  <span style="color:#236e25;"><em>// You can find more information here: </em></span><span style="color:#0000ff;">http://en.wikipedia.org/wiki/Disjoint_set_forest#Disjoint-set_forests</span><span style="color:#236e25;"><em>
+</em></span>  
+  Ball *rootA = ballA.componentRoot;
+  Ball *rootB = ballB.componentRoot;
   
-  <span style="color:#236e25;"><em>// Perform a nearest point query to see what the closest shape to the touch is.
-</em></span>  <span style="color:#236e25;"><em>// It only finds shapes that are within fingerRadius distance though.
-</em></span>  <span style="color:#236e25;"><em>// Also, it is using PhysicsBallOnlyBit to filter out the results so it will only return a ball and not an edge shape.
-</em></span>  cpFloat fingerRadius = <span style="color:#0000ff;">10.0</span>;
-  ChipmunkNearestPointQueryInfo *info = [_space <span style="color:#6c0540;">nearestPointQueryNearest:</span>point <span style="color:#6c0540;">maxDistance:</span>fingerRadius <span style="color:#6c0540;">layers:</span>PhysicsBallOnlyBit <span style="color:#6c0540;">group:</span>CP_NO_GROUP];
-  <strong><span style="color:#881350;">if</span></strong>(info.shape){
-    Ball *ball = info.shape.data;
-    [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">removeBall:</span>ball];
-    
-    <strong><span style="color:#881350;">int</span></strong> half_steps = (<span style="color:#003369;">arc4random</span>()%(<span style="color:#0000ff;">2</span>*<span style="color:#0000ff;">4</span> + <span style="color:#0000ff;">1</span>) - <span style="color:#0000ff;">4</span>);
-    <strong><span style="color:#881350;">float</span></strong> pitch = <span style="color:#003369;">pow</span>(<span style="color:#0000ff;">2.0f</span>, half_steps/<span style="color:#0000ff;">12.0f</span>);
-    [[SimpleAudioEngine <span style="color:#6c0540;">sharedEngine</span>] <span style="color:#6c0540;">playEffect:</span><span style="color:#760f15;">@&quot;pop.wav&quot;</span> <span style="color:#6c0540;">pitch:</span>pitch <span style="color:#6c0540;">pan:</span><span style="color:#0000ff;">0.0</span> <span style="color:#6c0540;">gain:</span><span style="color:#0000ff;">1.0</span>];
+  <strong><span style="color:#881350;">if</span></strong>(rootA != rootB){
+    <span style="color:#236e25;"><em>// Merge the two component trees.
+</em></span>    rootA.componentRoot = rootB.componentRoot;
+    rootA.componentCount = rootB.componentCount = rootA.componentCount + rootB.componentCount;
   }
+</pre>
+
+<p>The last thing to do is to return a true/false value telling Chipmunk if the collision should be processed normally or discarded. We don't need to do any fancy filtering here. So we just return true.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">  <span style="color:#236e25;"><em>// Returning false would mean Chipmunk should ignore the collision between shapeA and shapeB.
+</em></span>  <strong><span style="color:#881350;">return</span></strong> TRUE;
 }
 </pre>
 
-<h2>The [MainLayer markPain:space:] method:</h2>
-
-<p>TODO</p>
-
-<h2>The [MainLayer ccTouchesBegan:withEvent:] method:</h2>
+<h3>The [MainLayer ccTouchesBegan:withEvent:] method:</h3>
 
 <p>The only remaining game logic to implement in the layer is the user input. Cocos2D provides methods for converting input coordinates. Then all you need to do is to use that point to query Chipmunk for the nearest ball shape. TODO talk about layers here.</p>
 
@@ -268,7 +286,72 @@
 }
 </pre>
 
-<h2>TODO The [Ball everyMethod] method:</h2>
+<h2>Ball.m:</h2>
+<h3>Collision Types:</h3>
+
+<p>Unlike in regular Chipmunk where collision types are plain integers, collision types are unretained id pointers in Objective-Chipmunk that are compared by value (and not using an equals method). This makes it really easy to use anything you want for an identifier. You can use unique object references such as static NSStrings, class objects, or other object references. Because the pointers are unretained, with a little casting you can also safely store selectors (a convenient way to look up unique identifiers), other pointers or integers.</p>
+
+<p>I often use static NSString objects as identifiers. In this case where we need a unique identifier for each of the 6 colors, NSString references don't make the most sense, but it's still a useful example I think. We create a static NSArray to hold them, and initialize the array in the <code>initialize</code> class method. I also define a class method to expose the variable to the MainLayer.m file.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><strong><span style="color:#881350;">static</span></strong> <span style="color:#400080;">NSArray</span> *CollisionTypes = <strong><span style="color:#881350;">nil</span></strong>;
+
++(<strong><span style="color:#881350;">void</span></strong>)<span style="color:#6c0540;">initialize</span>
+{
+  CollisionTypes = @[<span style="color:#760f15;">@&quot;1&quot;</span>, <span style="color:#760f15;">@&quot;2&quot;</span>, <span style="color:#760f15;">@&quot;3&quot;</span>, <span style="color:#760f15;">@&quot;4&quot;</span>, <span style="color:#760f15;">@&quot;5&quot;</span>, <span style="color:#760f15;">@&quot;6&quot;</span>];
+}
+
++(<span style="color:#400080;">NSArray</span> *)<span style="color:#6c0540;">collisionTypes</span>
+{
+  <strong><span style="color:#881350;">return</span></strong> CollisionTypes;
+}
+</pre>
+
+<p>The following property methods complete the disjoint-set forest algorithm from earlier. If you want more information on how it works. The wikipedia link earlier has more information.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// The following two methods implement the other half of the disjoint set forest algorithm.
+// See [MainLayer markPairs:space:] for more information.
+</em></span>-(Ball *)<span style="color:#6c0540;">componentRoot</span>
+{
+  <strong><span style="color:#881350;">if</span></strong>(_componentParent != <strong><span style="color:#881350;">self</span></strong>){
+    <span style="color:#236e25;"><em>// Path compression.
+</em></span>    <span style="color:#236e25;"><em>// Make the next lookup quicker by caching the parent's root.
+</em></span>    _componentParent = _componentParent.componentRoot;
+  }
+  
+  <strong><span style="color:#881350;">return</span></strong> _componentParent;
+}
+
+-(<strong><span style="color:#881350;">void</span></strong>)<span style="color:#6c0540;">setComponentRoot:</span>(Ball *)componentRoot
+{
+  <strong><span style="color:#881350;">if</span></strong>(componentRoot == <strong><span style="color:#881350;">self</span></strong>){
+    _componentParent = <strong><span style="color:#881350;">self</span></strong>;
+  } <strong><span style="color:#881350;">else</span></strong> {
+    _componentParent = componentRoot.componentRoot;
+  }
+}
+</pre>
+
+<h3>The init method:</h3>
+
+<p>Finally the last pice. The init method for the ball objects. All that is left is to set up the physics of the individual balls.</p>
+
+<p>The first thing to do is come up with some of their random properties. Give them a random color (out of 6 colors), and give them a random radius. The mass of the ball will vary with the square of the radius, so we'll just set the mass to that. Because we aren't interacting with any object physics objects than just balls, it doesn't really matter what the mass is as long as it's relative.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <strong><span style="color:#881350;">int</span></strong> color = <span style="color:#003369;">arc4random</span>()%<span style="color:#0000ff;">6</span>;
+    
+    cpFloat radius = <span style="color:#003369;">cpflerp</span>(<span style="color:#0000ff;">30.0f</span>, <span style="color:#0000ff;">40.0f</span>, <span style="color:#003369;">frand</span>());
+    <span style="color:#236e25;"><em>// The mass will increase with the square of the radius.
+</em></span>    <span style="color:#236e25;"><em>// Since there are only balls in the game, the actual value don't matter as long as they are relative.
+</em></span>    cpFloat mass = radius*radius;
+</pre>
+
+<p></p>
+
+<p></p>
+
+<p></p>
+
+<p></p>
 
 	</body>
 </html>
