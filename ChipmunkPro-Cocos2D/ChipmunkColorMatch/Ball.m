@@ -22,7 +22,6 @@
 #import "Ball.h"
 #import "Shared.h"
 
-
 @implementation Ball {
 	ChipmunkBody *_body;
 	Ball *_componentParent;

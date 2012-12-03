@@ -333,9 +333,9 @@
 
 <h3>The init method:</h3>
 
-<p>Finally the last pice. The init method for the ball objects. All that is left is to set up the physics of the individual balls.</p>
+<p>Finally the last piece. The init method for the ball objects. All that is left is to set up the physics of the individual balls.</p>
 
-<p>The first thing to do is come up with some of their random properties. Give them a random color (out of 6 colors), and give them a random radius. The mass of the ball will vary with the square of the radius, so we'll just set the mass to that. Because we aren't interacting with any object physics objects than just balls, it doesn't really matter what the mass is as long as it's relative.</p>
+<p>The first thing to do is come up with some of their random properties. Give them a random color (out of 6 colors), and give them a random radius. The mass of the ball will vary with the square of the radius, so we'll just set the mass to that. Because we aren't interacting with any object physics objects than just balls, it doesn't really matter what the mass is as long as it's relative to the other balls.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <strong><span style="color:#881350;">int</span></strong> color = <span style="color:#003369;">arc4random</span>()%<span style="color:#0000ff;">6</span>;
     
@@ -345,13 +345,65 @@
 </em></span>    cpFloat mass = radius*radius;
 </pre>
 
-<p></p>
+<p>To create a body, you need to know it's mass (which we have) and moment of inertia. You can think of the moment inertia as being like the rotational mass of the body. The mass is how hard it is to push a body around, and the moment of inertia (often just called the moment) is how hard it is to make it spin. The moment is affected by the mass of the object, it's shape, and how the mass is distributed away from the center. A rookie mistake is to guess the moment of inertia and to just put in a number similar to the mass. Don't do that! You are likely to be wrong by several orders of magnitude and your physics will be very glitchy. Use the <code>cpMomentFor*()</code> functions to help you guess the moment of your objects. You can add the value of several together if your shape is composite.</p>
 
-<p></p>
+<p>Once you've created the shape, you can fill in the other properties you want such as the position, velocity, angle, data pointer etc. The position is set by MainLayer.m, so we'll just leave it out. We set the body's data pointer to self here so we can access the ball that owns the body from Chipmunk callbacks.
 
-<p></p>
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <span style="color:#236e25;"><em>// Create the body.
+</em></span>    _body = [ChipmunkBody <span style="color:#6c0540;">bodyWithMass:</span>mass <span style="color:#6c0540;">andMoment:</span><span style="color:#003369;">cpMomentForCircle</span>(mass, <span style="color:#0000ff;">0.0f</span>, radius, cpvzero)];
+    <span style="color:#236e25;"><em>// Set the user data pointer of the body to point back at the Ball object.
+</em></span>    <span style="color:#236e25;"><em>// That way you can access the Ball object from Chipmunk callbacks and such.
+</em></span>    _body.data = <strong><span style="color:#881350;">self</span></strong>;
+</pre>
 
-<p></p>
+<p>Next, we create a circle shape attached to the body and fill in the properties we want to define. Friction should be pretty self explanatory and you already know about the data pointer. The layers bitmask value is what we are using to filter only balls in the nearest point query method earlier. The collision type property is the object reference we are using when defining collision handlers.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <span style="color:#236e25;"><em>// Create the collision shape of the ball.
+</em></span>    _shape = [ChipmunkCircleShape <span style="color:#6c0540;">circleWithBody:</span>_body <span style="color:#6c0540;">radius:</span>radius <span style="color:#6c0540;">offset:</span>cpvzero];
+    _shape.friction = <span style="color:#0000ff;">0.7f</span>;
+    <span style="color:#236e25;"><em>// The layers is a bitmask used for filtering collisions or queries.
+</em></span>    <span style="color:#236e25;"><em>// See the [MainLayer ccTouchesBegan:withEvent:] method for more info.
+</em></span>    _shape.layers = PhysicsBallLayers;
+    <span style="color:#236e25;"><em>// The collision type is an object reference that is used to figure out which if any collision handler to call.
+</em></span>    _shape.collisionType = [CollisionTypes <span style="color:#6c0540;">objectAtIndex:</span>color];
+    <span style="color:#236e25;"><em>// Set the user data pointer of the shape to point back at the Ball object.
+</em></span>    <span style="color:#236e25;"><em>// That way you can access the Ball object from Chipmunk callbacks and such.
+</em></span>    _shape.data = <strong><span style="color:#881350;">self</span></strong>;
+</pre>
+
+<p>In order for the Chipmunk objects (bodies, shapes, constraints) to do anything interesting, they generally need to be added to a Chipmunk space. When you add a body to a space, you are asking Chipmunk to update it's position. By adding a shape to a space, you are asking Chipmunk to detect and apply collisions with other shapes. Removing the object from the space makes it inactive again. There are also certain things such as static bodies and other so-called, manually updated "rogue" bodies that are not added to the space. Static bodies never move, so you don't want Chipmunk applying gravity to it. For manually updated rogue bodies, you don't want Chipmunk undoing your work. For everything else though, if something isn't added to a space, it's basically inactive.</p>
+
+<p>Objective-Chipmunk has the ChipmunkObject protocol that makes it really easy to add composite physics objects to a space. The ball is a very simple example, containing only a single body and shape, but it becomes very useful for something such as a ragdoll or vehicle composed of many bodies, shapes and constraints. To implement the ChipmunkObject protocol, all you need to do is make a <code>chipmunkObjects</code> method or property that returns an NSArray (or any NSFastEnumeration) of other ChipmunkObjects. This can be any of the basic Chipmunk types such as ChipmunkBody, ChipmunkShape, or ChipmunkConstraint objects, but you can also include your own objects that implement the ChipmunkObject protocol. The latter is very handy when you have complex, hierarchical objects. Since the property is already defined, all we need to do is fill in the instance variable with an NSArray.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <span style="color:#236e25;"><em>// Set the chipmunkObjects ivar for the property to an NSArray (or any NSFastEnumeration).
+</em></span>    <span style="color:#236e25;"><em>// This is what Chipmunk objects to add and remove from the space.
+</em></span>    _chipmunkObjects = @[_body, <span style="color:#6c0540;">_shape</span>];
+</pre>
+
+<p>Lastly, to finish up the ball objects. We need to give them graphics. The CCPhysicsSprite class makes it really easy to bind a CCSprite and a physics body together. The original class I wrote has been extended to support Box2D bodies as well as Chipmunk and Objective-Chipmunk bodies. All you need to do is to assign a body to the sprite after you create it. The sprite will always have the same position and rotation as the body, and changing the sprite will change the position and rotation of the body its attached to! Handy.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <span style="color:#236e25;"><em>// The main sprite for the ball.
+</em></span>    CCPhysicsSprite *sprite = [CCPhysicsSprite <span style="color:#6c0540;">spriteWithFile:</span>[<span style="color:#400080;">NSString</span> <span style="color:#6c0540;">stringWithFormat:</span><span style="color:#760f15;">@&quot;ball_%d.png&quot;</span>, <span style="color:#6c0540;">color</span>]];
+    sprite.chipmunkBody = _body;
+    sprite.scale = <span style="color:#0000ff;">2.0f</span>*radius/(sprite.contentSize.width - <span style="color:#0000ff;">8.0f</span>);
+    sprite.zOrder = Z_BALLS;
+    
+    <span style="color:#236e25;"><em>// The highlight sprite overlain over the regular sprite.
+</em></span>    <span style="color:#236e25;"><em>// It's set to ignore the rotation of the body.
+</em></span>    CCPhysicsSprite *highlight = [CCPhysicsSprite <span style="color:#6c0540;">spriteWithFile:</span><span style="color:#760f15;">@&quot;ball_highlight.png&quot;</span>];
+    highlight.chipmunkBody = _body;
+    highlight.ignoreBodyRotation = TRUE;
+    highlight.scale = sprite.scale;
+    highlight.zOrder = Z_BALL_HIGHLIGHTS;
+    
+    _sprites = @[sprite, <span style="color:#6c0540;">highlight</span>];
+  }
+  
+  <strong><span style="color:#881350;">return</span></strong> <strong><span style="color:#881350;">self</span></strong>;
+}
+</pre>
+
+<p>TODO CC_CHIPMUNK_INTEGRATION, header issues.</p>
 
 	</body>
 </html>
