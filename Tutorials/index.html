@@ -155,15 +155,15 @@
   ccTime fixed_dt = <span style="color:#0000ff;">1.0</span>/(ccTime)<span style="color:#6c0540;">TICKS_PER_SECOND</span>;
   
   <span style="color:#236e25;"><em>// Add the current dynamic timestep to the accumulator.
-</em></span>  _accumulator += dt;
-  <span style="color:#236e25;"><em>// Subtract off fixed-sized chunks of time from the accumulator and tick
+</em></span>  <span style="color:#236e25;"><em>// Clamp the timestep though to prevent really long frames from causing a large backlog of fixed timesteps to be run.
+</em></span>  _accumulator += <span style="color:#400080;"><em>MIN</em></span>(dt, <span style="color:#0000ff;">0.1</span>);
+  <span style="color:#236e25;"><em>// Subtract off fixed-sized chunks of time from the accumulator and step
 </em></span>  <strong><span style="color:#881350;">while</span></strong>(_accumulator &gt; fixed_dt){
     [<strong><span style="color:#881350;">self</span></strong> <span style="color:#6c0540;">tick:</span>fixed_dt];
     _accumulator -= fixed_dt;
   }
 }
 </pre>
-
 <h3>The [MainLayer tick:] method:</h3>
 
 <p>So then the <code>tick:</code> method is the code that runs with a fixed timestep, independent of the framerate. So far in the game we have an empty playing field without any balls in it. It would be nice if it filled up slowly over time until there were a set number of balls onscreen. An easy way to do that is to check the number of balls and add one every few frames if the number is below that number. Additionally, it tries to insert the ball into the playing field at an empty spot. <code>[ChipmunkSpace shapeTest:]</code> returns true if the shape is overlapping something else in the space given the regular collision filtering rules.</p>

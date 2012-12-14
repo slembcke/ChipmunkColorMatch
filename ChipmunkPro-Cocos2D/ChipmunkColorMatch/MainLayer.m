@@ -240,7 +240,8 @@ const int TICKS_PER_SECOND = 120;
 	ccTime fixed_dt = 1.0/(ccTime)TICKS_PER_SECOND;
 	
 	// Add the current dynamic timestep to the accumulator.
-	_accumulator += dt;
+	// Clamp the timestep though to prevent really long frames from causing a large backlog of fixed timesteps to be run.
+	_accumulator += MIN(dt, 0.1);
 	// Subtract off fixed-sized chunks of time from the accumulator and tick
 	while(_accumulator > fixed_dt){
 		[self tick:fixed_dt];
