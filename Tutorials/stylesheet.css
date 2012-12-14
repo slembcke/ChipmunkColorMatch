@@ -47,6 +47,11 @@ code {
 	border: 1px grey solid;
 }
 
+.Copyright {
+	background-color: lightGrey;
+	text-align: center;
+}
+
 pre {
 	border-radius: 0.75em;
 	background-color: #F0F0F0;
