@@ -33,6 +33,25 @@
 
 <p>You can find out more information on <a href="http://chipmunk-physics.net">Chipmunk's website</a>. While Objective-Chipmunk is not free like Chipmunk is, the enhanced API will almost certainly save you time and money. You'll also be helping to support further Chipmunk development!</p>
 
+<h1>Overview</h1>
+
+<p>Some of the things you'll see in this tutorial.</p>
+
+<ul>
+<li>Setting up a Chipmunk space.
+	<ul>
+		<li>Create the space and setup some basic properties.</li>
+		<li>Add bounds around the space.</li>
+		<li>Adding collision handler callbacks to custom process collision events.</li>
+	</ul>
+</li>
+<li>Use the CCPhysicsDebugNode class to draw a space.</li>
+<li>Use a fixed timestep for better physics quality.</li>
+<li>Setup physics for a simple ball object.</li>
+<li>Bind sprites to Chipmunk bodies using the CCPhysicsSprite class.</li>
+<li>Implement the ChipmunkObject protocol to make it simple to work with composite physics objects.</li>
+</ul>
+
 <h1>Let's get started!</h1>
 
 <p>As I said earlier, it's assumed that you already know how to create a Cocos2D project, and how some of the basic Cocos2D things like scenes and such work. I won't bore you with that by repeating how to do it here. There are many many tutorials on that already. One thing to note is that I'm using ARC in this project. So you might want to read up on how to do that in a Cocos2D project as the templates aren't made for it by default.</p>
@@ -147,7 +166,7 @@
 
 <h3>The [MainLayer tick:] method:</h3>
 
-<p>So then the <code>tick:</code> method is the code that runs with a fixed timestep, independent of the framerate. So far in the game we have an empty playing field without any balls in it. It would be nice if it filled up slowly over time until there were a set number of balls onscreen. An easy way to do that is to check the number of balls and add one every few frames if the number is below some amount. Additionally, it tries to insert the ball into the playing field at an empty spot. <code>[ChipmunkSpace shapeTest:]</code> returns true if the shape is overlapping something else in the space given the regular collision filtering rules.</p>
+<p>So then the <code>tick:</code> method is the code that runs with a fixed timestep, independent of the framerate. So far in the game we have an empty playing field without any balls in it. It would be nice if it filled up slowly over time until there were a set number of balls onscreen. An easy way to do that is to check the number of balls and add one every few frames if the number is below that number. Additionally, it tries to insert the ball into the playing field at an empty spot. <code>[ChipmunkSpace shapeTest:]</code> returns true if the shape is overlapping something else in the space given the regular collision filtering rules.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// The tick: method is the fixed timestep. See update: for more information.
 </em></span>-(<strong><span style="color:#881350;">void</span></strong>)<span style="color:#6c0540;">tick:</span>(ccTime)dt
@@ -170,7 +189,7 @@
   }
 </pre>
 
-<p>While Chipmunk will be passing information on which balls are touching back to our game, we still need a way to detect when a group of balls are touching. To do that, I'll be using the disjoint set forest algorithm. I won't go into too much detail on how it works in the tutorial, but you can find out more information from the <a href="http://en.wikipedia.org/wiki/Disjoint_set_forest#Disjoint-set_forests">wikipedia page</a>. Before having Chipmunk call <code>markPair:space:</code> to tell us which balls are touching, we need to reset the properties back to their default states.</p>
+<p>While Chipmunk will be passing information on when any two balls of the same color are touching, we still need a way to detect when a group of four balls are touching. To do that, I'll be using the disjoint set forest algorithm. I won't go into too much detail on how it works in the tutorial, but you can find out more information from the <a href="http://en.wikipedia.org/wiki/Disjoint_set_forest#Disjoint-set_forests">wikipedia page</a>. Before having Chipmunk call <code>markPair:space:</code> to tell us which balls are touching, we need to reset the properties back to their default states. You'll see what there are used for in a couple paragraphs.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">  <span style="color:#236e25;"><em>// Reset the component properties
 </em></span>  <strong><span style="color:#881350;">for</span></strong>(Ball *ball in _balls){
@@ -228,14 +247,14 @@
 </em></span>  <span style="color:#003369;">CHIPMUNK_ARBITER_GET_BODIES</span>(arb, shapeA, shapeB);
 </pre>
 
-<p>If you could only get information on the physics objects that were involved in the collision, you wouldn't be able to do much. For that reason, nearly every Chipmunk object has a data pointer that you can assign to something related to that object, generally the game object that owns it. As you'll see later, we set the data pointers for the ball's body and shape to the ball object itself. We need the ball object pointers as that's where we store the grouping information.</p>
+<p>If you could only get information on the physics objects that were involved in the collision, you wouldn't be able to do much. For that reason, nearly every Chipmunk object has a data pointer that you can assign to something related to that object, generally the game object that owns it. As you'll see later, we set the data pointers for the ball's body and shape to the ball object itself. We need the ball object as that's where we store the grouping information.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">  <span style="color:#236e25;"><em>// We set the shapes' data pointers to point to the ball that owns them.
 </em></span>  Ball *ballA = shapeA.data;
   Ball *ballB = shapeB.data;
 </pre>
 
-<p>To find the groups, I'm using the <a href="http://en.wikipedia.org/wiki/Disjoint_set_forest#Disjoint-set_forests">disjoint-set forest algorithm</a>. The short explanation is that each group of colored balls is identified by a (random) ball in the group. That ball becomes the root and stores the count of the balls in the group. It starts out with each ball being it's own group (and each ball it's own root). Then as <code>markPair:space:</code> is called once for each pair of touching balls, you merge their groups randomly picking one of the existing roots as the new root. Once all of the touching pairs have been identified, all the balls in the same group will have the same root, and the root will contain the correct count of balls in the group. A very simple, if a little tricky algorithm. Now back in the <code>tick:</code> method it can iterate the balls and remove the ones in groups of more than 4.</p>
+<p>To find the groups, I'm using the <a href="http://en.wikipedia.org/wiki/Disjoint_set_forest#Disjoint-set_forests">disjoint-set forest algorithm</a>. The short explanation is that each group of colored balls is identified by a (more or less random) ball in the group. That ball becomes the root and stores the count of the balls in the group. It starts out with each ball being it's own group (and each ball it's own root). Then as <code>markPair:space:</code> is called once for each pair of touching balls, you merge their groups, randomly picking one of the existing roots as the new root. Once all of the touching pairs have been identified, all the balls in the same group will have the same root, and the root will contain the correct count of balls in the group. A very simple algorithm, but a little tricky. Now back in the <code>tick:</code> method it can iterate the balls and remove the ones in groups of more than 4.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">  <span style="color:#236e25;"><em>// So the rest of the method is half of the implementation of the disjoint set forest algorithm.
 </em></span>  <span style="color:#236e25;"><em>// I won't further explain the algorithm here, but it's one of my favorites.
@@ -261,7 +280,7 @@
 
 <h3>The [MainLayer ccTouchesBegan:withEvent:] method:</h3>
 
-<p>The only remaining game logic to implement in the layer is the user input. Cocos2D provides methods for converting input coordinates. Then all you need to do is to use that point to query Chipmunk for the nearest ball shape. TODO talk about layers here.</p>
+<p>The only remaining game logic to implement in the layer is the user input. Cocos2D provides methods for converting input coordinates. Then all you need to do is to use that point to query Chipmunk for the nearest ball shape. Notice how it's using <code>PhysicsBallOnlyBit</code>, as that layer bit will not be set for the border shapes we created in the <code>init</code> method above.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// This method removes balls when you touch them.
 </em></span>-(<strong><span style="color:#881350;">void</span></strong>)<span style="color:#6c0540;">ccTouchesBegan:</span>(<span style="color:#400080;">NSSet</span> *)touches <span style="color:#6c0540;">withEvent:</span>(<span style="color:#400080;"><em>UIEvent</em></span> *)event
@@ -291,7 +310,7 @@
 
 <p>Unlike in regular Chipmunk where collision types are plain integers, collision types are unretained id pointers in Objective-Chipmunk that are compared by value (and not using an equals method). This makes it really easy to use anything you want for an identifier. You can use unique object references such as static NSStrings, class objects, or other object references. Because the pointers are unretained, with a little casting you can also safely store selectors (a convenient way to look up unique identifiers), other pointers or integers.</p>
 
-<p>I often use static NSString objects as identifiers. In this case where we need a unique identifier for each of the 6 colors, NSString references don't make the most sense, but it's still a useful example I think. We create a static NSArray to hold them, and initialize the array in the <code>initialize</code> class method. I also define a class method to expose the variable to the MainLayer.m file.</p>
+<p>I often use static NSString objects as identifiers. In this case where we need a unique identifier for each of the 6 colors, NSString references don't necessarily make the most sense, but it's still a useful example I think. We create a static NSArray to hold them, and initialize the array in the <code>initialize</code> class method. I also define a class method to expose the variable to the MainLayer.m file.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><strong><span style="color:#881350;">static</span></strong> <span style="color:#400080;">NSArray</span> *CollisionTypes = <strong><span style="color:#881350;">nil</span></strong>;
 
@@ -335,7 +354,7 @@
 
 <p>Finally the last piece. The init method for the ball objects. All that is left is to set up the physics of the individual balls.</p>
 
-<p>The first thing to do is come up with some of their random properties. Give them a random color (out of 6 colors), and give them a random radius. The mass of the ball will vary with the square of the radius, so we'll just set the mass to that. Because we aren't interacting with any object physics objects than just balls, it doesn't really matter what the mass is as long as it's relative to the other balls.</p>
+<p>The first thing to do is come up with some of their random properties. Give them a random color (out of 6 colors), and give them a random radius. The mass of the ball will vary proportionally with the square of the radius, so we'll just set the mass to that. Because we aren't interacting with any object physics objects than just balls, it doesn't really matter what the mass is as long as it's proportional to the other balls.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <strong><span style="color:#881350;">int</span></strong> color = <span style="color:#003369;">arc4random</span>()%<span style="color:#0000ff;">6</span>;
     
@@ -345,7 +364,7 @@
 </em></span>    cpFloat mass = radius*radius;
 </pre>
 
-<p>To create a body, you need to know it's mass (which we have) and moment of inertia. You can think of the moment inertia as being like the rotational mass of the body. The mass is how hard it is to push a body around, and the moment of inertia (often just called the moment) is how hard it is to make it spin. The moment is affected by the mass of the object, it's shape, and how the mass is distributed away from the center. A rookie mistake is to guess the moment of inertia and to just put in a number similar to the mass. Don't do that! You are likely to be wrong by several orders of magnitude and your physics will be very glitchy. Use the <code>cpMomentFor*()</code> functions to help you guess the moment of your objects. You can add the value of several together if your shape is composite.</p>
+<p>To create a body, you need to know it's mass (which we already have) and moment of inertia. You can think of the moment inertia as being like the rotational mass of the body. The mass is how hard it is to push a body around, and the moment of inertia (often just called the moment) is how hard it is to make it spin. The moment is affected by the mass of the object, it's shape, and how the mass is distributed away from the center. A rookie mistake is to guess the moment of inertia and to just put in a number similar to the mass. Don't do that! You are likely to be wrong by several orders of magnitude and your physics will be very glitchy. Use the <code>cpMomentFor*()</code> functions to help you guess the moment of your objects. You can add the value of several together if your shape is composite.</p>
 
 <p>Once you've created the shape, you can fill in the other properties you want such as the position, velocity, angle, data pointer etc. The position is set by MainLayer.m, so we'll just leave it out. We set the body's data pointer to self here so we can access the ball that owns the body from Chipmunk callbacks.
 
@@ -380,7 +399,7 @@
 </em></span>    _chipmunkObjects = @[_body, <span style="color:#6c0540;">_shape</span>];
 </pre>
 
-<p>Lastly, to finish up the ball objects. We need to give them graphics. The CCPhysicsSprite class makes it really easy to bind a CCSprite and a physics body together. The original class I wrote has been extended to support Box2D bodies as well as Chipmunk and Objective-Chipmunk bodies. All you need to do is to assign a body to the sprite after you create it. The sprite will always have the same position and rotation as the body, and changing the sprite will change the position and rotation of the body its attached to! Handy.</p>
+<p>Lastly, to finish up the ball objects. We need to give them graphics. The CCPhysicsSprite class makes it really easy to bind a CCSprite and a physics body together. The original class I wrote has been extended to support Box2D bodies as well as Chipmunk and Objective-Chipmunk bodies. All you need to do is to assign a body to the sprite after you create it. The sprite will always have the same position and rotation as the body, and changing the sprite will change the position and rotation of the body its attached to. Handy!</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <span style="color:#236e25;"><em>// The main sprite for the ball.
 </em></span>    CCPhysicsSprite *sprite = [CCPhysicsSprite <span style="color:#6c0540;">spriteWithFile:</span>[<span style="color:#400080;">NSString</span> <span style="color:#6c0540;">stringWithFormat:</span><span style="color:#760f15;">@&quot;ball_%d.png&quot;</span>, <span style="color:#6c0540;">color</span>]];
@@ -403,7 +422,13 @@
 }
 </pre>
 
-<p>TODO CC_CHIPMUNK_INTEGRATION, header issues.</p>
+<p>With that, the ball class is complete. It doesn't actually need any more methods. All of the physics and rendering and handled by Chipmunk and Cocos2D. So there isn't much the Ball class needs to do other than to set up the objects for them.</p>
+
+<h1>Conclusion</h1>
+
+<p>That basically wraps up the code for the project. At this point you know everything you need to make a color matching game with Chipmunk Pro and Cocos2D. Again, if you want to grab the code for the project, you can get it from the <a href="https://github.com/slembcke/ChipmunkColorMatch">GitHub page</a>.</p>
+
+<div class="Copyright">Copyright 2012 by Scott Lembcke and Howling Moon Software.</div>
 
 	</body>
 </html>
