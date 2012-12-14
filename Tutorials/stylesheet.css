@@ -1,22 +1,34 @@
+body {
+    font-family:Tahoma;
+}
+
 h1, h2 {
-	padding: 0.25em;
+ 	padding: 0.25em;
+ 	padding-left: 0.4em;
 	border-radius: 0.25em;
 }
 
 h1 {
-	background-color: #89b4cb;
+ 	background-color: #89b4cb;
 }
 
 h2 {
-	background-color: lightGrey;
+ 	background-color: lightGrey;
 }
 
 p {
-	margin-left: 1em;
+	margin-left: 2em;
+	
+    font-family:Tahoma;
+    font-size:0.9em;
+    line-height:1.55em;
+    color:#111;
+
+	
 }
 
 p.expl {
-	margin-left: 2em;
+	margin-left: 4em;
 }
 
 code {

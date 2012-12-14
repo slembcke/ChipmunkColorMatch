@@ -5,7 +5,7 @@
 		<title>Chipmunk Game Dynamics Documentation</title>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css" />
 	</head>
-	<body>
+<body>
 
 <img src="images/logo1_med.png" alt="" /> <a href="http://howlingmoonsoftware.com"><img src="images/hms_logo.png" style="float:right;" alt="" /></a>
 
@@ -35,14 +35,19 @@
 
 <h1>Let's get started!</h1>
 
+<p>
+This color matching tutorial is inspired by Crayon Ball. In this tutorial game, the goal is to get 4 balls of the same color to touch. Then they are removed. You can interact with the balls in the scene by popping them to make room for more matches. Of course, this is a physics tutorial, so the balls will be rolling over each other in a big pile. The tutorial demonstrates collision handler callbacks, adding and removing physics objects, CCPhysicsSprite, and a lot of Chipmunk basics.  Unlike some of our other tutorials, this one is more of a complete game.
+</p>
+
+
 <p>As I said earlier, it's assumed that you already know how to create a Cocos2D project, and how some of the basic Cocos2D things like scenes and such work. I won't bore you with that by repeating how to do it here. There are many many tutorials on that already. One thing to note is that I'm using ARC in this project. So you might want to read up on how to do that in a Cocos2D project as the templates aren't made for it by default.</p>
 
 <h2>Ball.m</h2>
 <h3>The [MainLayer init] method:</h3>
 
-<p>Anyway. Following along in <code>MainLayer.m</code>; Let's start by looking at the <code>init</code> method. First it starts out by setting up some Cocos stuff (enabling touch, creating the foreground/background sprites, and forcing high quality texture filtering for the balls. I won't paste the code here as it's not related to the physics really.</p>
+<p>Starting in <code>MainLayer.m</code>; let's look at the <code>init</code> method. First it starts out by setting up some Cocos stuff (enabling touch, creating the foreground/background sprites and forcing high quality texture filtering for the balls. I won't paste the code here as it's not related to the physics really.</p>
 
-<p>Next it does the basic setup of the space. The collision slop is the amout of overlap that objects are allowed to have. Increasing it makes it more likely that that they will stay in contact over many frames. That's desirable for this game because if the contacts kept appearing and disapearing it would affect the ability of the game to find groups of colors to match out. It might take a few frames for all of the contacts to be active at the same time. The default value of the collision slop is 0.1, which is reasonable to keep the contact solution stable, but not enough for visible overlap if you are using pixels as your distance units. In general, setting colision slop as high as you can without causing visible overlap will make your simulation run a little more stable.</p>
+<p>Next is the basic setup of the space. The collision slop is the amount of overlap that objects are allowed to have. Increasing the slop makes it more likely that that they will stay in contact over many frames. That's desirable for this game because if the contacts kept appearing and disapearing it would affect the ability of the game to find groups of colors to match out. It might take a few frames for all of the contacts to be active at the same time. The default value of the collision slop is 0.1, which is reasonable to keep the contact solution stable, but not enough for visible overlap if you are using pixels as your distance units. In general, setting colision slop as high as you can without causing visible overlap will make your simulation run more stably.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <span style="color:#236e25;"><em>// Set up the physics space
 </em></span>    _space = [[ChipmunkSpace <strong><span style="color:#ff0000;">alloc</span></strong>] <span style="color:#6c0540;">init</span>];
@@ -52,7 +57,7 @@
 </em></span>    _space.collisionSlop = <span style="color:#0000ff;">2.0f</span>;
 </pre>
 
-<p>Next up, we add the collision handler callbacks. In Objective-Chipmunk, this takes the form of a target and set of selectors. A collision handler is a set of methods to call for various events when two shapes that are tagged with specific collision type identifiers collide. This lets you only register for the collisions that you are interested in, like a player touching a monster instead of having to process every collision that ever occurs.</p>
+<p>Next up, we add the collision handler callbacks. In Objective-Chipmunk, this takes the form of a target and set of selectors. A collision handler is a set of methods that are called when two shapes that are tagged with specific collision type identifiers collide. This lets you only register for the collisions that you are interested in, like a player touching a monster, instead of having to process every collision that ever occurs.</p>
 
 <p>What we are doing here is iterating the collision types of the balls and registering a callback when two balls of the same color touch. We only want to get callbacks for the preSolve events which are called every frame, so the rest of the selectors are <code>nil</code>. You'll see what the <code>markPair:space:</code> method does later.</p>
 
@@ -69,7 +74,7 @@
 </em></span>    [_space <span style="color:#6c0540;">addBounds:</span><span style="color:#400080;"><em>CGRectMake</em></span>(<span style="color:#0000ff;">130</span>, <span style="color:#0000ff;">139</span>, <span style="color:#0000ff;">767</span>, <span style="color:#0000ff;">1500</span>) <span style="color:#6c0540;">thickness:</span><span style="color:#0000ff;">20</span> <span style="color:#6c0540;">elasticity:</span><span style="color:#0000ff;">1.0</span> <span style="color:#6c0540;">friction:</span><span style="color:#0000ff;">1.0</span> <span style="color:#6c0540;">layers:</span>PhysicsEdgeLayers <span style="color:#6c0540;">group:</span>CP_NO_GROUP <span style="color:#6c0540;">collisionType:</span><strong><span style="color:#881350;">nil</span></strong>];
 </pre>
 
-<p>Cocos2D v2.1 and up now ships with two handy classes that I wrote named <code>CCPhysicsDebugNode</code> and <code>CCPhysicsSprite</code>. CCPhysicsDebugNode is really useful when you are developing your game so you can see that your collision shapes and joints line up with your graphics in the way you expect. CCPhysicsSprite is a CCSprite subclass that automatically follows a rigid body. We'll discuss this class more later.</p>
+<p>Cocos2D v2.1 and up now ships with two handy classes that I wrote named <code>CCPhysicsDebugNode</code> and <code>CCPhysicsSprite</code>. CCPhysicsDebugNode is really useful when you are developing your game so you can see that your collision shapes and joints line up with your graphics in the way you expect.</p>
 
 <p>The last thing in the <code>init</code> method is to create the CCPhysicsDebugNode to draw the collision shapes. I made it invisible by default as it gets in the way of the game. There is also some Cocos2D menu code following this to toggle the visibility.</p>
 
@@ -82,7 +87,7 @@
 
 <h3>The [MainLayer addBall:] and [MainLayer removeBall:] methods:</h3>
 
-<p>The <code>addBall:</code> method is pretty straightforward. It adds the ball to <code>_balls</code> array, add's the ball to the space and add's the sprites for the ball to the scene. Each ball has two sprites. The base sprite, and a second sprite that overlays it to give a shading effect.</p>
+<p>The <code>addBall:</code> method is pretty straightforward. It adds the ball to <code>_balls</code> array, adds the ball to the space and adds the sprites for the ball to the scene. Each ball has two sprites. The base sprite, and a second overlay sprite that gives it a shading effect.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// Add a Ball object to the scene.
 </em></span>-(<strong><span style="color:#881350;">void</span></strong>)<span style="color:#6c0540;">addBall:</span>(Ball *)ball
@@ -124,7 +129,7 @@
 
 <p>Now let's skip ahead to the <code>update:</code> method. This is the method that Cocos2D calls each time before it draws a frame. The <code>dt</code> variable that it passes is usually going to be about 1/60th of a second, but it's never quite consistent. This is somewhat undesirable for the physics. It's not a good practice to update the physics with these variable sized timesteps because sometimes the CPU might be busy for a few frames. Then the next time you update the physics enough time may have passed so that objects can pass through each other. It also makes the gameplay very non-deterministic and it will act a little differently depending on the framerate.</p>
 
-<p>Instead, you'll want to implement a fixed timestep with Chipmunk. This is really easy to do. I usually do this in <em>all</em> of my games, not just physics ones for the same reasons. Keep the code that only needs to be ran to update graphics in <code>update:</code> and create a separate <code>tick:</code> method that handles all the game logic and runs with a fixed timestep. If you want to know more about fixed timesteps, the article in the comment below is a good resource.</p>
+<p>Instead, you'll want to implement a fixed timestep with Chipmunk. This is really easy to do. I usually do this in <em>all</em> of my games, not just physics ones for the same reasons. Keep the code that updates graphics in <code>update:</code> and create a separate <code>tick:</code> method that handles all the game logic and runs with a fixed timestep. If you want to know more about fixed timesteps, the article in the comment below is a good resource.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// This is the update method called by Cocos2D each time it draws a frame.
 // It implements a fixed timestep to keep the physics running smoothly and deterministically.
@@ -170,7 +175,7 @@
   }
 </pre>
 
-<p>While Chipmunk will be passing information on which balls are touching back to our game, we still need a way to detect when a group of balls are touching. To do that, I'll be using the disjoint set forest algorithm. I won't go into too much detail on how it works in the tutorial, but you can find out more information from the <a href="http://en.wikipedia.org/wiki/Disjoint_set_forest#Disjoint-set_forests">wikipedia page</a>. Before having Chipmunk call <code>markPair:space:</code> to tell us which balls are touching, we need to reset the properties back to their default states.</p>
+<p>While Chipmunk will be passing information on which balls are touching back to our game, we still need a way to detect when a group of balls are touching. To do that, I'll be using the disjoint-set forest algorithm. I won't go into too much detail on how it works in the tutorial, but you can find out more information from the <a href="http://en.wikipedia.org/wiki/Disjoint_set_forest#Disjoint-set_forests">wikipedia page</a>. Before having Chipmunk call <code>markPair:space:</code> to tell us which balls are touching, we need to reset the properties back to their default states.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">  <span style="color:#236e25;"><em>// Reset the component properties
 </em></span>  <strong><span style="color:#881350;">for</span></strong>(Ball *ball in _balls){
@@ -179,14 +184,14 @@
   }
 </pre>
 
-<p>Now we can update the space by telling it to step forward in time by the amount of time for the fixed timestep. This is also when Chipmunk calls all the collision handler callbacks, one for each pair of shapes that match a collision handler definition. There is also a default collision handler that you can define if you want to process all the other collisions as well, but this is rarely needed.</p>
+<p>Now we can update the space by telling it to step forward in time by the fixed timestep amount. This is also when Chipmunk calls all the collision handler callbacks, one for each pair of shapes that match a collision handler definition. (There is also a default collision handler that you can define if you want to process all the other collisions as well, but this is rarely needed.)</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">  <span style="color:#236e25;"><em>// Step the space forward in time.
 </em></span>  <span style="color:#236e25;"><em>// This is what actually makes the physics go.
 </em></span>  [_space <span style="color:#6c0540;">step:</span>dt];
 </pre>
 
-<p>At this point, Chipmunk has called the <code>markPair:space</code> method a bunch of times. All the information about what group balls are in, and how many balls in each group will be filled in for us. All we need to do then is to iterate all the balls and check if their group has more than 4 balls in it. If so remove the ball and make a pop noise for each one. I like to bend the pitch up or down a few notes for variety.</p>
+<p>During the step, Chipmunk has called the <code>markPair:space</code> method a bunch of times. All the information about what group balls are in, and how many balls in each group will be filled in for us. All we need to do then is to iterate all the balls and check if their group has more than 4 balls in it. If so, remove the ball and make a pop noise for each one. I like to bend the pitch up or down a few notes for variety.</p>
 
 <p>Notice that I'm iterating a copy of the <code>_balls</code> array. There are very few data structures where it's safe to remove objects while iterating. NSMutableArray is no exception. Making a copy of the array to iterate is the simplest solution. People usually get strangely worried about the performance impact of doing this, but it's really a non-issue most of the time. Check the profiler if you don't believe me. ;)</p>
 
@@ -228,7 +233,7 @@
 </em></span>  <span style="color:#003369;">CHIPMUNK_ARBITER_GET_BODIES</span>(arb, shapeA, shapeB);
 </pre>
 
-<p>If you could only get information on the physics objects that were involved in the collision, you wouldn't be able to do much. For that reason, nearly every Chipmunk object has a data pointer that you can assign to something related to that object, generally the game object that owns it. As you'll see later, we set the data pointers for the ball's body and shape to the ball object itself. We need the ball object pointers as that's where we store the grouping information.</p>
+<p>If you could only get information on the shapes and bodies that were involved in the collision, you wouldn't be able to do much. For that reason, nearly every Chipmunk object has a data pointer that you can assign to something related to that object, generally the game object that owns it. As you'll see later, we set the data pointers on the ball's body and shape to the ball object itself. We need the ball object pointers because we store the grouping information there.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">  <span style="color:#236e25;"><em>// We set the shapes' data pointers to point to the ball that owns them.
 </em></span>  Ball *ballA = shapeA.data;
@@ -261,7 +266,7 @@
 
 <h3>The [MainLayer ccTouchesBegan:withEvent:] method:</h3>
 
-<p>The only remaining game logic to implement in the layer is the user input. Cocos2D provides methods for converting input coordinates. Then all you need to do is to use that point to query Chipmunk for the nearest ball shape. TODO talk about layers here.</p>
+<p>The only remaining game logic to implement in the layer is the user input. Cocos2D provides methods for converting input coordinates. Then all you need to do is to use that point to query Chipmunk for the nearest ball shape. TODO talk about layers here. TODO also point query?</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// This method removes balls when you touch them.
 </em></span>-(<strong><span style="color:#881350;">void</span></strong>)<span style="color:#6c0540;">ccTouchesBegan:</span>(<span style="color:#400080;">NSSet</span> *)touches <span style="color:#6c0540;">withEvent:</span>(<span style="color:#400080;"><em>UIEvent</em></span> *)event
@@ -306,7 +311,7 @@
 }
 </pre>
 
-<p>The following property methods complete the disjoint-set forest algorithm from earlier. If you want more information on how it works. The wikipedia link earlier has more information.</p>
+<p>The following property methods complete the disjoint-set forest algorithm from earlier. If you want more information on how it works, see the earlier wikipedia link.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#236e25;"><em>// The following two methods implement the other half of the disjoint set forest algorithm.
 // See [MainLayer markPairs:space:] for more information.
@@ -333,9 +338,9 @@
 
 <h3>The init method:</h3>
 
-<p>Finally the last piece. The init method for the ball objects. All that is left is to set up the physics of the individual balls.</p>
+<p>Finally the last piece: the init method for the ball objects. All that is left is to set up the physics of the individual balls.</p>
 
-<p>The first thing to do is come up with some of their random properties. Give them a random color (out of 6 colors), and give them a random radius. The mass of the ball will vary with the square of the radius, so we'll just set the mass to that. Because we aren't interacting with any object physics objects than just balls, it doesn't really matter what the mass is as long as it's relative to the other balls.</p>
+<p>The first thing to do is come up with some of their random properties. Give them a random color (out of 6 colors), and give them a random radius. The mass of the ball will vary with the square of the radius, so we'll just set the mass to that. Because we aren't interacting with any physics objects other than just balls, it doesn't really matter what the mass is as long as it's relative to the other balls.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <strong><span style="color:#881350;">int</span></strong> color = <span style="color:#003369;">arc4random</span>()%<span style="color:#0000ff;">6</span>;
     
@@ -345,9 +350,9 @@
 </em></span>    cpFloat mass = radius*radius;
 </pre>
 
-<p>To create a body, you need to know it's mass (which we have) and moment of inertia. You can think of the moment inertia as being like the rotational mass of the body. The mass is how hard it is to push a body around, and the moment of inertia (often just called the moment) is how hard it is to make it spin. The moment is affected by the mass of the object, it's shape, and how the mass is distributed away from the center. A rookie mistake is to guess the moment of inertia and to just put in a number similar to the mass. Don't do that! You are likely to be wrong by several orders of magnitude and your physics will be very glitchy. Use the <code>cpMomentFor*()</code> functions to help you guess the moment of your objects. You can add the value of several together if your shape is composite.</p>
+<p>To create a body, you need to know its mass (which we have) and moment of inertia. You can think of the moment inertia as being like the rotational mass of the body. The mass is how hard it is to push a body around, and the moment of inertia (often just called the moment) is how hard it is to make it spin. The moment is affected by the mass of the object, it's shape, and how the mass is distributed away from the center. A rookie mistake is to guess the moment of inertia and to just put in a number similar to the mass. Don't do that! You are likely to be wrong by several orders of magnitude and your physics will be very glitchy. Use the <code>cpMomentFor*()</code> functions to help you calculate the moment of your objects. For a composite shape, add the value of several moments together.</p>
 
-<p>Once you've created the shape, you can fill in the other properties you want such as the position, velocity, angle, data pointer etc. The position is set by MainLayer.m, so we'll just leave it out. We set the body's data pointer to self here so we can access the ball that owns the body from Chipmunk callbacks.
+<p>Once you've created the shape, you can fill in the other properties you want such as the position, velocity, angle, data pointer, etc. The position is set by MainLayer.m, so we'll just leave it out. We set the body's data pointer to self here so we can access the ball that owns the body from Chipmunk callbacks.
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <span style="color:#236e25;"><em>// Create the body.
 </em></span>    _body = [ChipmunkBody <span style="color:#6c0540;">bodyWithMass:</span>mass <span style="color:#6c0540;">andMoment:</span><span style="color:#003369;">cpMomentForCircle</span>(mass, <span style="color:#0000ff;">0.0f</span>, radius, cpvzero)];
@@ -356,7 +361,7 @@
 </em></span>    _body.data = <strong><span style="color:#881350;">self</span></strong>;
 </pre>
 
-<p>Next, we create a circle shape attached to the body and fill in the properties we want to define. Friction should be pretty self explanatory and you already know about the data pointer. The layers bitmask value is what we are using to filter only balls in the nearest point query method earlier. The collision type property is the object reference we are using when defining collision handlers.</p>
+<p>Next, we create a circle shape attached to the body and fill in the properties we want to define. Friction should be pretty self explanatory, and you already know about the data pointer. The layers bitmask value is used to filter only-balls in the nearest point query method earlier. The collision type property is the object reference that we are using when defining collision handlers.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <span style="color:#236e25;"><em>// Create the collision shape of the ball.
 </em></span>    _shape = [ChipmunkCircleShape <span style="color:#6c0540;">circleWithBody:</span>_body <span style="color:#6c0540;">radius:</span>radius <span style="color:#6c0540;">offset:</span>cpvzero];
@@ -371,7 +376,7 @@
 </em></span>    _shape.data = <strong><span style="color:#881350;">self</span></strong>;
 </pre>
 
-<p>In order for the Chipmunk objects (bodies, shapes, constraints) to do anything interesting, they generally need to be added to a Chipmunk space. When you add a body to a space, you are asking Chipmunk to update it's position. By adding a shape to a space, you are asking Chipmunk to detect and apply collisions with other shapes. Removing the object from the space makes it inactive again. There are also certain things such as static bodies and other so-called, manually updated "rogue" bodies that are not added to the space. Static bodies never move, so you don't want Chipmunk applying gravity to it. For manually updated rogue bodies, you don't want Chipmunk undoing your work. For everything else though, if something isn't added to a space, it's basically inactive.</p>
+<p>In order for the Chipmunk objects (bodies, shapes, constraints) to do anything interesting, they generally need to be added to a Chipmunk space. When you add a body to a space, you are asking Chipmunk to update its position. By adding a shape to a space, you are asking Chipmunk to detect and apply collisions with other shapes. Removing the object from the space makes it inactive again. There are also certain things such as static bodies and other so-called, manually updated "rogue" bodies that are not added to the space. Static bodies never move, so you don't want Chipmunk applying gravity to it. For manually updated rogue bodies, you don't want Chipmunk undoing your work. For everything else though, if something isn't added to a space, it's basically inactive.</p>
 
 <p>Objective-Chipmunk has the ChipmunkObject protocol that makes it really easy to add composite physics objects to a space. The ball is a very simple example, containing only a single body and shape, but it becomes very useful for something such as a ragdoll or vehicle composed of many bodies, shapes and constraints. To implement the ChipmunkObject protocol, all you need to do is make a <code>chipmunkObjects</code> method or property that returns an NSArray (or any NSFastEnumeration) of other ChipmunkObjects. This can be any of the basic Chipmunk types such as ChipmunkBody, ChipmunkShape, or ChipmunkConstraint objects, but you can also include your own objects that implement the ChipmunkObject protocol. The latter is very handy when you have complex, hierarchical objects. Since the property is already defined, all we need to do is fill in the instance variable with an NSArray.</p>
 
