@@ -1,10 +1,13 @@
 body {
     font-family:Tahoma;
+    font-size:0.9em;
+    line-height:1.55em;
+	color:#111;
 }
 
 h1, h2 {
- 	padding: 0.25em;
- 	padding-left: 0.4em;
+ 	padding: 0.4em;
+ 	padding-left: 0.6em;
 	border-radius: 0.25em;
 }
 
@@ -18,13 +21,6 @@ h2 {
 
 p {
 	margin-left: 2em;
-	
-    font-family:Tahoma;
-    font-size:0.9em;
-    line-height:1.55em;
-    color:#111;
-
-	
 }
 
 p.expl {
@@ -45,11 +41,6 @@ code {
 .PopOpen {
 	border-radius: 1em;
 	border: 1px grey solid;
-}
-
-.Copyright {
-	background-color: lightGrey;
-	text-align: center;
 }
 
 pre {
