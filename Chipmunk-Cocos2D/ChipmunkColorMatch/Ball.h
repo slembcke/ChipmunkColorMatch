@@ -23,7 +23,7 @@
 
 @interface Ball : NSObject
 
-@property(nonatomic, assign) cpVect pos;
+@property(nonatomic, readonly) cpVect pos;
 @property(nonatomic, readonly) cpShape *shape;
 
 // Sprites for this ball.
@@ -39,6 +39,6 @@
 -(void)addToSpace:(cpSpace *)space;
 -(void)removeFromSpace:(cpSpace *)space;
 
-+(Ball *)ball;
++(Ball *)ballAt:(cpVect)pos;
 
 @end
