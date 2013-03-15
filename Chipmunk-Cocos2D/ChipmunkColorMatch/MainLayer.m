@@ -12,15 +12,6 @@
 	int _ticks;
 }
 
-static NSDictionary *PopParticles = nil;
-
-+(void)initialize
-{
-	// Preload the plist definition for the pop particles.
-	NSString *path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"pop.plist"];
-	PopParticles = [NSDictionary dictionaryWithContentsOfFile:path];
-}
-
 +(CCScene *) scene
 {
 	CCScene *scene = [CCScene node];
@@ -47,46 +38,13 @@ static NSDictionary *PopParticles = nil;
 		_balls = [NSMutableArray array];
 		
 		_space = cpSpaceNew();
+		cpSpaceSetGravity(_space, cpv(0, -500));
 		[self addBall:[Ball ballAt:cpv(512, 384)]];
 		
-		
-//		cpSpaceSetGravity(_space, cpv(0.0f, -500.0f));
-		
-		
-//		for(cpCollisionType i=1; i<=6; i++){
-//			cpSpaceAddCollisionHandler(_space, i, i, NULL, (cpCollisionBeginFunc)MarkPair, NULL, NULL, (__bridge void *)self);
-//		}
-//		
-//		{
-//			cpShape *shape;
-//			cpBody *staticBody = cpSpaceGetStaticBody(_space);
-//			cpFloat radius = 20.0;
-//			
-//			// left, right, bottom, top
-//			cpFloat l = 130 - radius;
-//			cpFloat r = 130 + 767 + radius;
-//			cpFloat b = 139 - radius;
-//			cpFloat t = 139 + 1500 + radius;
-//			
-//			shape = cpSegmentShapeNew(staticBody, cpv(l, b), cpv(l, t), radius);
-//			cpShapeSetFriction(shape, 1.0f);
-//			cpShapeSetLayers(shape, PhysicsEdgeLayers);
-//			cpSpaceAddShape(_space, shape);
-//			
-//			shape = cpSegmentShapeNew(staticBody, cpv(r, b), cpv(r, t), radius);
-//			cpShapeSetFriction(shape, 1.0f);
-//			cpShapeSetLayers(shape, PhysicsEdgeLayers);
-//			cpSpaceAddShape(_space, shape);
-//			
-//			shape = cpSegmentShapeNew(staticBody, cpv(l, b), cpv(r, b), radius);
-//			cpShapeSetFriction(shape, 1.0f);
-//			cpShapeSetLayers(shape, PhysicsEdgeLayers);
-//			cpSpaceAddShape(_space, shape);
-//		}
-		
+		[self addBounds];
 		
 		CCPhysicsDebugNode *debugNode = [CCPhysicsDebugNode debugNodeForCPSpace:_space];
-		debugNode.visible = FALSE;
+		debugNode.visible = TRUE;
 		[self addChild:debugNode z:Z_PHYSICS_DEBUG];
 		
 		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Toggle Debug" fontName:@"Helvetica" fontSize:30];
@@ -117,6 +75,34 @@ static NSDictionary *PopParticles = nil;
 	[self scheduleUpdate];
 }
 
+-(void)addBounds
+{
+	cpShape *shape;
+	cpBody *staticBody = cpSpaceGetStaticBody(_space);
+	cpFloat radius = 20.0;
+	
+	// left, right, bottom, top
+	cpFloat l = 130 - radius;
+	cpFloat r = 130 + 767 + radius;
+	cpFloat b = 139 - radius;
+	cpFloat t = 139 + 1500 + radius;
+	
+	shape = cpSegmentShapeNew(staticBody, cpv(l, b), cpv(l, t), radius);
+	cpShapeSetFriction(shape, 1.0f);
+	cpShapeSetLayers(shape, PhysicsEdgeLayers);
+	cpSpaceAddShape(_space, shape);
+	
+	shape = cpSegmentShapeNew(staticBody, cpv(r, b), cpv(r, t), radius);
+	cpShapeSetFriction(shape, 1.0f);
+	cpShapeSetLayers(shape, PhysicsEdgeLayers);
+	cpSpaceAddShape(_space, shape);
+	
+	shape = cpSegmentShapeNew(staticBody, cpv(l, b), cpv(r, b), radius);
+	cpShapeSetFriction(shape, 1.0f);
+	cpShapeSetLayers(shape, PhysicsEdgeLayers);
+	cpSpaceAddShape(_space, shape);
+}
+
 const int TICKS_PER_SECOND = 120;
 
 -(void)update:(ccTime)dt
@@ -136,7 +122,7 @@ const int TICKS_PER_SECOND = 120;
 
 -(void)tick:(ccTime)dt
 {
-	[self fillPlayArea];
+//	[self fillPlayArea];
 	[self resetMatchInfo];
 	
 	cpSpaceStep(_space, dt);
@@ -173,12 +159,6 @@ const int TICKS_PER_SECOND = 120;
 	}
 	
 	[_balls removeObject:ball];
-	
-	// Draw particles whenever a ball is removed.
-	CCParticleSystem *particles = [[CCParticleSystemQuad alloc] initWithDictionary:PopParticles];
-	particles.position = ball.pos;
-	particles.autoRemoveOnFinish = TRUE;
-	[self addChild:particles z:Z_PARTICLES];
 }
 
 -(void)resetMatchInfo
@@ -201,7 +181,7 @@ const int TICKS_PER_SECOND = 120;
 }
 
 static cpBool
-MarkPair(cpArbiter *arb, cpSpace *space, MainLayer *self)
+MarkPair(cpArbiter *arb, cpSpace *space, void *ptr)
 {
 	CP_ARBITER_GET_SHAPES(arb, shapeA, shapeB);
 	
@@ -212,8 +192,8 @@ MarkPair(cpArbiter *arb, cpSpace *space, MainLayer *self)
 	Ball *rootB = ballB.componentRoot;
 	
 	if(rootA != rootB){
-		rootA.componentRoot = rootB.componentRoot;
-		rootA.componentCount = rootB.componentCount = rootA.componentCount + rootB.componentCount;
+		rootB.componentRoot = rootA.componentRoot;
+		rootA.componentCount += rootB.componentCount;
 	}
 	
 	return TRUE;
@@ -226,6 +206,7 @@ MarkPair(cpArbiter *arb, cpSpace *space, MainLayer *self)
 	
 	cpFloat fingerRadius = 10.0;
 	cpShape *shape = cpSpaceNearestPointQueryNearest(_space, point, fingerRadius, PhysicsBallOnlyBit, CP_NO_GROUP, NULL);
+	
 	if(shape){
 		Ball *ball = (__bridge Ball *)cpShapeGetUserData(shape);
 		[self removeBall:ball];
