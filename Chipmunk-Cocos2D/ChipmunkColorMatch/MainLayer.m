@@ -50,13 +50,6 @@ static NSDictionary *PopParticles = nil;
 		[self addBall:[Ball ballAt:cpv(512, 384)]];
 		
 		
-//		cpSpaceSetGravity(_space, cpv(0.0f, -500.0f));
-		
-		
-//		for(cpCollisionType i=1; i<=6; i++){
-//			cpSpaceAddCollisionHandler(_space, i, i, NULL, (cpCollisionBeginFunc)MarkPair, NULL, NULL, (__bridge void *)self);
-//		}
-//		
 //		{
 //			cpShape *shape;
 //			cpBody *staticBody = cpSpaceGetStaticBody(_space);
@@ -84,9 +77,14 @@ static NSDictionary *PopParticles = nil;
 //			cpSpaceAddShape(_space, shape);
 //		}
 		
+//		for(cpCollisionType i=1; i<=6; i++){
+//			cpSpaceAddCollisionHandler(_space, i, i, NULL, (cpCollisionBeginFunc)MarkPair, NULL, NULL, (__bridge void *)self);
+//		}
+		
+		
 		
 		CCPhysicsDebugNode *debugNode = [CCPhysicsDebugNode debugNodeForCPSpace:_space];
-		debugNode.visible = FALSE;
+		debugNode.visible = TRUE;
 		[self addChild:debugNode z:Z_PHYSICS_DEBUG];
 		
 		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Toggle Debug" fontName:@"Helvetica" fontSize:30];
@@ -136,7 +134,7 @@ const int TICKS_PER_SECOND = 120;
 
 -(void)tick:(ccTime)dt
 {
-	[self fillPlayArea];
+//	[self fillPlayArea];
 	[self resetMatchInfo];
 	
 	cpSpaceStep(_space, dt);
