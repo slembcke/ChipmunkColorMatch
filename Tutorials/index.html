@@ -37,12 +37,19 @@
 
 <p>As I said earlier, it's assumed that you already know how to create a Cocos2D project, and how some of the basic Cocos2D things like scenes and such work. I won't bore you with that by repeating how to do it here. There are many many tutorials on that already. One thing to note is that I'm using ARC in this project. So you might want to read up on how to do that in a Cocos2D project as the templates aren't made for it by default.</p>
 
-<h2>Ball.m</h2>
+<p>One of the new features in Cocos2D 2.1 is the physics integration classes CCPhysicsSprite and CCPhysicsDebugNode. I had originally written these for some Chipmunk example code, but Riq liked them enough that he decided to integrate them into Cocos2D itself. Because the classes rely on external libraries that you may not want in your project, you have to enable it. Look near the top of <code>ccConfig.h</code> and set <code>CC_ENABLE_CHIPMUNK_INTEGRATION</code> to 1.</p>
+
+<pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; "><span style="color:#683821;">#define CC_ENABLE_CHIPMUNK_INTEGRATION </span><span style="color:#0000ff;">1</span><span style="color:#683821;">
+</span></pre>
+
+<p><strong>Important:</strong> As of writing, the current release candidate of Cocos2D 2.1 has an additional define for <code>CC_CHIPMUNK_IMPORT</code> that you should set to <code>"ObjectiveChipmunk.h"</code> if you are using the Objective-Chipmunk wrapper. Previous to this you would need to be careful to import the Objective-Chipmunk.h header into each .m file before anything else to avoid an issue with header conflicts. Going forward it should no longer be an issue though.</p>
+
+<h2>MainLayer.m</h2>
 <h3>The [MainLayer init] method:</h3>
 
 <p>Anyway. Following along in <code>MainLayer.m</code>; Let's start by looking at the <code>init</code> method. First it starts out by setting up some Cocos stuff (enabling touch, creating the foreground/background sprites, and forcing high quality texture filtering for the balls. I won't paste the code here as it's not related to the physics really.</p>
 
-<p>Next it does the basic setup of the space. The collision slop is the amout of overlap that objects are allowed to have. Increasing it makes it more likely that that they will stay in contact over many frames. That's desirable for this game because if the contacts kept appearing and disapearing it would affect the ability of the game to find groups of colors to match out. It might take a few frames for all of the contacts to be active at the same time. The default value of the collision slop is 0.1, which is reasonable to keep the contact solution stable, but not enough for visible overlap if you are using pixels as your distance units. In general, setting colision slop as high as you can without causing visible overlap will make your simulation run a little more stable.</p>
+<p>Next it does the basic setup of the space. The collision slop is the amount of overlap that objects are allowed to have. Increasing it makes it more likely that that they will stay in contact over many frames. That's desirable for this game because if the contacts kept appearing and disappearing it would affect the ability of the game to find groups of colors to match out. It might take a few frames for all of the contacts to be active at the same time. The default value of the collision slop is 0.1, which is reasonable to keep the contact solution stable, but not enough for visible overlap if you are using pixels as your distance units. In general, setting collision slop as high as you can without causing visible overlap will make your simulation run a little more stable.</p>
 
 <pre style="text-align:left;color:#000000; background-color:#ffffff; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;font-size:small; font-family:monospace; ">    <span style="color:#236e25;"><em>// Set up the physics space
 </em></span>    _space = [[ChipmunkSpace <strong><span style="color:#ff0000;">alloc</span></strong>] <span style="color:#6c0540;">init</span>];
