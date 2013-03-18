@@ -54,7 +54,7 @@
 		sprite.zOrder = Z_BALLS;
 		
 		CCPhysicsSprite *highlight = [CCSprite spriteWithFile:@"ball_highlight.png"];
-		sprite.position = pos;
+		highlight.position = pos;
 		highlight.scale = sprite.scale;
 		highlight.zOrder = Z_BALL_HIGHLIGHTS;
 		
