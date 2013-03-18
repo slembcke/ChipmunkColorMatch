@@ -73,6 +73,7 @@ static NSDictionary *PopParticles = nil;
 			[tex setTexParameters:(ccTexParams[]){{GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT}}];
 		}
 		
+		
 		// Set up the physics space
 		_space = cpSpaceNew();
 		cpSpaceSetGravity(_space, cpv(0.0f, -500.0f));
@@ -93,18 +94,25 @@ static NSDictionary *PopParticles = nil;
 			cpBody *staticBody = cpSpaceGetStaticBody(_space);
 			cpFloat radius = 20.0;
 			
-			shape = cpSpaceAddShape(_space, cpSegmentShapeNew(staticBody, cpv(130 - radius, 139 - radius), cpv(130 - radius, 139 + 1500 + radius), radius));
+			// left, right, bottom, top
+			cpFloat l = 130 - radius;
+			cpFloat r = 130 + 767 + radius;
+			cpFloat b = 139 - radius;
+			cpFloat t = 139 + 1500 + radius;
+			
+			shape = cpSpaceAddShape(_space, cpSegmentShapeNew(staticBody, cpv(l, b), cpv(l, t), radius));
 			cpShapeSetFriction(shape, 1.0f);
 			cpShapeSetLayers(shape, PhysicsEdgeLayers);
 			
-			shape = cpSpaceAddShape(_space, cpSegmentShapeNew(staticBody, cpv(130 + 767 + radius, 139 - radius), cpv(130 + 767 + radius, 139 + 1500 + radius), radius));
+			shape = cpSpaceAddShape(_space, cpSegmentShapeNew(staticBody, cpv(r, b), cpv(r, t), radius));
 			cpShapeSetFriction(shape, 1.0f);
 			cpShapeSetLayers(shape, PhysicsEdgeLayers);
 			
-			shape = cpSpaceAddShape(_space, cpSegmentShapeNew(staticBody, cpv(130 - radius, 139 - radius), cpv(130 + 767 + radius, 139 - radius), radius));
+			shape = cpSpaceAddShape(_space, cpSegmentShapeNew(staticBody, cpv(l, b), cpv(r, b), radius));
 			cpShapeSetFriction(shape, 1.0f);
 			cpShapeSetLayers(shape, PhysicsEdgeLayers);
 		}
+		
 		
 		// The debug node will draw an overlay of the physics shapes.
 		// Very useful for debugging so that you know your collision shapes and graphics line up.
@@ -129,7 +137,7 @@ static NSDictionary *PopParticles = nil;
 
 -(void)dealloc
 {
-	// When using ARC you can't ensure that the ball objects will be destroyed 
+	// When using ARC you can't ensure that the ball objects will be destroyed before the space.
 	[_balls removeAllObjects];
 	
 	cpSpaceFree(_space);
@@ -137,8 +145,78 @@ static NSDictionary *PopParticles = nil;
 
 -(void)onEnter
 {
-	[self scheduleUpdate];
 	[super onEnter];
+	[self scheduleUpdate];
+}
+
+const int TICKS_PER_SECOND = 120;
+
+// This is the update method called by Cocos2D each time it draws a frame.
+// It implements a fixed timestep to keep the physics running smoothly and deterministically.
+// Using a fixed timestep is *highly* recommended with Chipmunk.
+// A good article on fixed timesteps can be found here: http://gafferongames.com/game-physics/fix-your-timestep/
+// I consider extrapolation/interpolation to be fairly optional unless the tickrate is slower than the framerate.
+-(void)update:(ccTime)dt
+{
+	ccTime fixed_dt = 1.0/(ccTime)TICKS_PER_SECOND;
+	
+	// Add the current dynamic timestep to the accumulator.
+	// Clamp the timestep though to prevent really long frames from causing a large backlog of fixed timesteps to be run.
+	_accumulator += MIN(dt, 0.1);
+	// Subtract off fixed-sized chunks of time from the accumulator and step
+	while(_accumulator > fixed_dt){
+		[self tick:fixed_dt];
+		_accumulator -= fixed_dt;
+	}
+}
+
+-(void)tick:(ccTime)dt
+{
+	// Attempt to add a ball every few ticks if the playfield has less than 70 balls.
+	if(_ticks%6 == 0 && _balls.count < 70){
+		Ball *ball = [Ball ball];
+		
+		// Try up to 10 times to find a clear spot to insert the ball.
+		for(int i=0; i<10; i++){
+			// Give the ball a random position.
+			ball.pos = cpv(512.0f + 300.0f*frand_unit(), 1000.0f);
+			
+			if(!cpSpaceShapeQuery(_space, ball.shape, NULL, NULL)){
+				// If the area is clear, add the ball and exit the loop.
+				[self addBall:ball];
+				break;
+			}
+		}
+	}
+	
+	// Reset the component properties
+	for(Ball *ball in _balls){
+		ball.componentCount = 1;
+		ball.componentRoot = ball;
+	}
+	
+	// Step the space forward in time.
+	// This is what actually makes the physics go.
+	cpSpaceStep(_space, dt);
+	
+	// At this point Chipmunk called markPair:space: a bunch of times.
+	// Look for balls in components with 4 or more balls and remove them.
+	// Not that I'm iterating a copy of the _balls array.
+	// You can't remove objects from an array while iterating it.
+	for(Ball *ball in [_balls copy]){
+		// Get the component's root and check the count.
+		Ball *root = ball.componentRoot;
+		if(root.componentCount >= 4){
+			[self removeBall:ball];
+			
+			// Play a pop noise.
+			int half_steps = (arc4random()%(2*4 + 1) - 4);
+			float pitch = pow(2.0f, half_steps/12.0f);
+			[[SimpleAudioEngine sharedEngine] playEffect:@"ploop.wav" pitch:pitch pan:0.0 gain:1.0];
+		}
+	}
+	
+	_ticks++;
 }
 
 // Add a Ball object to the scene.
@@ -202,75 +280,6 @@ MarkPair(cpArbiter *arb, cpSpace *space, MainLayer *self)
 	
 	// Returning false would mean Chipmunk should ignore the collision between shapeA and shapeB.
 	return TRUE;
-}
-
-const int TICKS_PER_SECOND = 120;
-
--(void)tick:(ccTime)dt
-{
-	// Attempt to add a ball every few ticks if the playfield has less than 70 balls.
-	if(_ticks%6 == 0 && _balls.count < 70){
-		Ball *ball = [Ball ball];
-		
-		// Try up to 10 times to find a clear spot to insert the ball.
-		for(int i=0; i<10; i++){
-			// Give the ball a random position.
-			ball.pos = cpv(512.0f + 300.0f*frand_unit(), 1000.0f);
-			
-			if(!cpSpaceShapeQuery(_space, ball.shape, NULL, NULL)){
-				// If the area is clear, add the ball and exit the loop.
-				[self addBall:ball];
-				break;
-			}
-		}
-	}
-	
-	// Reset the component properties
-	for(Ball *ball in _balls){
-		ball.componentCount = 1;
-		ball.componentRoot = ball;
-	}
-	
-	// Step the space forward in time.
-	// This is what actually makes the physics go.
-	cpSpaceStep(_space, dt);
-	
-	// At this point Chipmunk called markPair:space: a bunch of times.
-	// Look for balls in components with 4 or more balls and remove them.
-	// Not that I'm iterating a copy of the _balls array.
-	// You can't remove objects from an array while iterating it.
-	for(Ball *ball in [_balls copy]){
-		// Get the component's root and check the count.
-		Ball *root = ball.componentRoot;
-		if(root.componentCount >= 4){
-			[self removeBall:ball];
-			
-			// Play a pop noise.
-			int half_steps = (arc4random()%(2*4 + 1) - 4);
-			float pitch = pow(2.0f, half_steps/12.0f);
-			[[SimpleAudioEngine sharedEngine] playEffect:@"ploop.wav" pitch:pitch pan:0.0 gain:1.0];
-		}
-	}
-	
-	_ticks++;
-}
-
-// This is the update method called by Cocos2D each time it draws a frame.
-// It implements a fixed timestep to keep the physics running smoothly and deterministically.
-// Using a fixed timestep is *highly* recommended with Chipmunk.
-// A good article on fixed timesteps can be found here: http://gafferongames.com/game-physics/fix-your-timestep/
-// I consider extrapolation/interpolation to be fairly optional unless the tickrate is slower than the framerate.
--(void)update:(ccTime)dt
-{
-	ccTime fixed_dt = 1.0/(ccTime)TICKS_PER_SECOND;
-	
-	// Add the current dynamic timestep to the accumulator.
-	_accumulator += dt;
-	// Subtract off fixed-sized chunks of time from the accumulator and step
-	while(_accumulator > fixed_dt){
-		[self tick:fixed_dt];
-		_accumulator -= fixed_dt;
-	}
 }
 
 // This method removes balls when you touch them.
