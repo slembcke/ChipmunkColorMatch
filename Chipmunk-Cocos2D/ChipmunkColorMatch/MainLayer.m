@@ -47,8 +47,9 @@ static NSDictionary *PopParticles = nil;
 		_balls = [NSMutableArray array];
 		
 		_space = cpSpaceNew();
-		[self addBall:[Ball ballAt:cpv(512, 384)]];
+		cpSpaceSetGravity(_space, cpv(0, -500));
 		
+		[self addBall:[Ball ballAt:ccp(512, 384)]];
 		
 //		{
 //			cpShape *shape;
