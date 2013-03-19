@@ -18,29 +18,13 @@
 		int color = arc4random()%6;
 		cpFloat radius = cpflerp(30.0f, 40.0f, frand());
 		
-		cpFloat mass = radius*radius;
-		cpFloat moment = cpMomentForCircle(mass, 0, radius, cpvzero);
-		_body = cpBodyNew(mass, moment);
-		cpBodySetPos(_body, pos);
-		cpBodySetUserData(_body, (__bridge void *)self);
-		
-		_shape = cpCircleShapeNew(_body, radius, cpvzero);
-		cpShapeSetUserData(_shape, (__bridge void *)self);
-		
-//		_shape = cpCircleShapeNew(_body, radius, cpvzero);
-//		cpShapeSetFriction(_shape, 0.7f);
-//		cpShapeSetLayers(_shape, PhysicsBallLayers);
-//		cpShapeSetCollisionType(_shape, color + 1);
-//		cpShapeSetUserData(_shape, (__bridge void *)self);
-		
-		CCPhysicsSprite *sprite = [CCPhysicsSprite spriteWithFile:[NSString stringWithFormat:@"ball_%d.png", color]];
-		sprite.body = _body;
+		CCPhysicsSprite *sprite = [CCSprite spriteWithFile:[NSString stringWithFormat:@"ball_%d.png", color]];
+		sprite.position = pos;
 		sprite.scale = 2.0f*radius/(sprite.contentSize.width - 8.0f);
 		sprite.zOrder = Z_BALLS;
 		
-		CCPhysicsSprite *highlight = [CCPhysicsSprite spriteWithFile:@"ball_highlight.png"];
-		highlight.body = _body;
-		highlight.ignoreBodyRotation = TRUE;
+		CCPhysicsSprite *highlight = [CCSprite spriteWithFile:@"ball_highlight.png"];
+		highlight.position = pos;
 		highlight.scale = sprite.scale;
 		highlight.zOrder = Z_BALL_HIGHLIGHTS;
 		
@@ -58,14 +42,14 @@
 
 -(void)addToSpace:(cpSpace *)space
 {
-//	cpSpaceAddBody(space, _body);
-//	cpSpaceAddShape(space, _shape);
+	if(_body) cpSpaceAddBody(space, _body);
+	if(_shape) cpSpaceAddShape(space, _shape);
 }
 
 -(void)removeFromSpace:(cpSpace *)space
 {
-//	cpSpaceRemoveBody(space, _body);
-//	cpSpaceRemoveShape(space, _shape);
+	if(_body) cpSpaceRemoveBody(space, _body);
+	if(_shape)	cpSpaceRemoveShape(space, _shape);
 }
 
 // MARK: Misc

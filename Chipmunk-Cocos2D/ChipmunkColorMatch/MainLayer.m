@@ -41,7 +41,11 @@
 		cpSpaceSetGravity(_space, cpv(0, -500));
 		[self addBall:[Ball ballAt:cpv(512, 384)]];
 		
-		[self addBounds];
+//		[self addBounds];
+		
+//		for(cpCollisionType i=1; i<=6; i++){
+//			cpSpaceAddCollisionHandler(_space, i, i, NULL, MarkPair, NULL, NULL, NULL);
+//		}
 		
 		CCPhysicsDebugNode *debugNode = [CCPhysicsDebugNode debugNodeForCPSpace:_space];
 		debugNode.visible = TRUE;
@@ -181,7 +185,7 @@ const int TICKS_PER_SECOND = 120;
 }
 
 static cpBool
-MarkPair(cpArbiter *arb, cpSpace *space, void *ptr)
+MarkPair(cpArbiter *arb, cpSpace *space, void *context)
 {
 	CP_ARBITER_GET_SHAPES(arb, shapeA, shapeB);
 	
