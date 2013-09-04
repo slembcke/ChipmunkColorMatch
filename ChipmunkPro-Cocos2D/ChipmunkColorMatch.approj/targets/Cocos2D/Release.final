@@ -1,0 +1,1676 @@
+{
+    "xcode_project": "ChipmunkColorMatch.xcodeproj", 
+    "java_sources": [], 
+    "pchs": [], 
+    "assets": [], 
+    "link_flags": [], 
+    "config": {
+        "FEATURES": [
+            "opengles2", 
+            "landscape"
+        ]
+    }, 
+    "header_paths": [
+        {
+            "header_path": "Cocos2D-generated-files.hmap", 
+            "type": "iquote", 
+            "hmap": {}
+        }, 
+        {
+            "header_path": "Cocos2D-own-target-headers.hmap", 
+            "type": "I", 
+            "hmap": {}
+        }, 
+        {
+            "header_path": "Cocos2D-all-target-headers.hmap", 
+            "type": "I", 
+            "hmap": {}
+        }, 
+        {
+            "header_path": "Cocos2D-project-headers.hmap", 
+            "type": "iquote", 
+            "hmap": {
+                "CCTextureCache.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCTextureCache.h", 
+                    "key": "CCTextureCache.h"
+                }, 
+                "CCActionGrid.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCActionGrid.h", 
+                    "key": "CCActionGrid.h"
+                }, 
+                "cpSimpleMotor.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/constraints/", 
+                    "suffix": "cpSimpleMotor.h", 
+                    "key": "cpSimpleMotor.h"
+                }, 
+                "ccShader_PositionTextureColor_vert.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_PositionTextureColor_vert.h", 
+                    "key": "ccShader_PositionTextureColor_vert.h"
+                }, 
+                "NSThread+performBlock.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "NSThread+performBlock.h", 
+                    "key": "NSThread+performBlock.h"
+                }, 
+                "ccShader_PositionTexture_uColor_frag.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_PositionTexture_uColor_frag.h", 
+                    "key": "ccShader_PositionTexture_uColor_frag.h"
+                }, 
+                "CCTMXTiledMap.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCTMXTiledMap.h", 
+                    "key": "CCTMXTiledMap.h"
+                }, 
+                "CCPhysicsDebugNode.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCPhysicsDebugNode.h", 
+                    "key": "CCPhysicsDebugNode.h"
+                }, 
+                "CCTouchDelegateProtocol.h": {
+                    "prefix": "../Shared/libs/cocos2d/Platforms/iOS/", 
+                    "suffix": "CCTouchDelegateProtocol.h", 
+                    "key": "CCTouchDelegateProtocol.h"
+                }, 
+                "CDAudioManager.h": {
+                    "prefix": "../Shared/libs/CocosDenshion/", 
+                    "suffix": "CDAudioManager.h", 
+                    "key": "CDAudioManager.h"
+                }, 
+                "ccShader_PositionTexture_uColor_vert.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_PositionTexture_uColor_vert.h", 
+                    "key": "ccShader_PositionTexture_uColor_vert.h"
+                }, 
+                "CocosDenshion.h": {
+                    "prefix": "../Shared/libs/CocosDenshion/", 
+                    "suffix": "CocosDenshion.h", 
+                    "key": "CocosDenshion.h"
+                }, 
+                "cpPivotJoint.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/constraints/", 
+                    "suffix": "cpPivotJoint.h", 
+                    "key": "cpPivotJoint.h"
+                }, 
+                "CCActionPageTurn3D.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCActionPageTurn3D.h", 
+                    "key": "CCActionPageTurn3D.h"
+                }, 
+                "CCAtlasNode.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCAtlasNode.h", 
+                    "key": "CCAtlasNode.h"
+                }, 
+                "CCLayer.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCLayer.h", 
+                    "key": "CCLayer.h"
+                }, 
+                "CCES2Renderer.h": {
+                    "prefix": "../Shared/libs/cocos2d/Platforms/iOS/", 
+                    "suffix": "CCES2Renderer.h", 
+                    "key": "CCES2Renderer.h"
+                }, 
+                "cpVect.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/", 
+                    "suffix": "cpVect.h", 
+                    "key": "cpVect.h"
+                }, 
+                "ccConfig.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccConfig.h", 
+                    "key": "ccConfig.h"
+                }, 
+                "CCAnimationCache.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCAnimationCache.h", 
+                    "key": "CCAnimationCache.h"
+                }, 
+                "ccTypes.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccTypes.h", 
+                    "key": "ccTypes.h"
+                }, 
+                "cocos2d.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "cocos2d.h", 
+                    "key": "cocos2d.h"
+                }, 
+                "CCGrid.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCGrid.h", 
+                    "key": "CCGrid.h"
+                }, 
+                "vec3.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/", 
+                    "suffix": "vec3.h", 
+                    "key": "vec3.h"
+                }, 
+                "ray2.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/", 
+                    "suffix": "ray2.h", 
+                    "key": "ray2.h"
+                }, 
+                "CCTransition.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCTransition.h", 
+                    "key": "CCTransition.h"
+                }, 
+                "ChipmunkPointCloudSampler.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "ChipmunkPointCloudSampler.h", 
+                    "key": "ChipmunkPointCloudSampler.h"
+                }, 
+                "CCSpriteFrameCache.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCSpriteFrameCache.h", 
+                    "key": "CCSpriteFrameCache.h"
+                }, 
+                "CCGrabber.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCGrabber.h", 
+                    "key": "CCGrabber.h"
+                }, 
+                "CCProtocols.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCProtocols.h", 
+                    "key": "CCProtocols.h"
+                }, 
+                "ccShader_Position_uColor_frag.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_Position_uColor_frag.h", 
+                    "key": "ccShader_Position_uColor_frag.h"
+                }, 
+                "CCLabelTTF.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCLabelTTF.h", 
+                    "key": "CCLabelTTF.h"
+                }, 
+                "CCArray.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "CCArray.h", 
+                    "key": "CCArray.h"
+                }, 
+                "ccCArray.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "ccCArray.h", 
+                    "key": "ccCArray.h"
+                }, 
+                "CCMenu.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCMenu.h", 
+                    "key": "CCMenu.h"
+                }, 
+                "CCActionTween.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCActionTween.h", 
+                    "key": "CCActionTween.h"
+                }, 
+                "CCTouchHandler.h": {
+                    "prefix": "../Shared/libs/cocos2d/Platforms/iOS/", 
+                    "suffix": "CCTouchHandler.h", 
+                    "key": "CCTouchHandler.h"
+                }, 
+                "chipmunk.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/", 
+                    "suffix": "chipmunk.h", 
+                    "key": "chipmunk.h"
+                }, 
+                "cpRotaryLimitJoint.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/constraints/", 
+                    "suffix": "cpRotaryLimitJoint.h", 
+                    "key": "cpRotaryLimitJoint.h"
+                }, 
+                "chipmunk_ffi.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/", 
+                    "suffix": "chipmunk_ffi.h", 
+                    "key": "chipmunk_ffi.h"
+                }, 
+                "ccShader_PositionColor_frag.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_PositionColor_frag.h", 
+                    "key": "ccShader_PositionColor_frag.h"
+                }, 
+                "CCEventDispatcher.h": {
+                    "prefix": "../Shared/libs/cocos2d/Platforms/Mac/", 
+                    "suffix": "CCEventDispatcher.h", 
+                    "key": "CCEventDispatcher.h"
+                }, 
+                "cpShape.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/", 
+                    "suffix": "cpShape.h", 
+                    "key": "cpShape.h"
+                }, 
+                "ccShader_PositionTextureColor_frag.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_PositionTextureColor_frag.h", 
+                    "key": "ccShader_PositionTextureColor_frag.h"
+                }, 
+                "CCActionProgressTimer.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCActionProgressTimer.h", 
+                    "key": "CCActionProgressTimer.h"
+                }, 
+                "CCTransitionProgress.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCTransitionProgress.h", 
+                    "key": "CCTransitionProgress.h"
+                }, 
+                "cpGearJoint.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/constraints/", 
+                    "suffix": "cpGearJoint.h", 
+                    "key": "cpGearJoint.h"
+                }, 
+                "CDOpenALSupport.h": {
+                    "prefix": "../Shared/libs/CocosDenshion/", 
+                    "suffix": "CDOpenALSupport.h", 
+                    "key": "CDOpenALSupport.h"
+                }, 
+                "ccShader_PositionColor_vert.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_PositionColor_vert.h", 
+                    "key": "ccShader_PositionColor_vert.h"
+                }, 
+                "Ball.h": {
+                    "prefix": "ChipmunkColorMatch/", 
+                    "suffix": "Ball.h", 
+                    "key": "Ball.h"
+                }, 
+                "cpBB.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/", 
+                    "suffix": "cpBB.h", 
+                    "key": "cpBB.h"
+                }, 
+                "CCVertex.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "CCVertex.h", 
+                    "key": "CCVertex.h"
+                }, 
+                "quaternion.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/", 
+                    "suffix": "quaternion.h", 
+                    "key": "quaternion.h"
+                }, 
+                "ChipmunkConstraint.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "ChipmunkConstraint.h", 
+                    "key": "ChipmunkConstraint.h"
+                }, 
+                "ChipmunkObject.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "ChipmunkObject.h", 
+                    "key": "ChipmunkObject.h"
+                }, 
+                "TransformUtils.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "TransformUtils.h", 
+                    "key": "TransformUtils.h"
+                }, 
+                "CCSprite.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCSprite.h", 
+                    "key": "CCSprite.h"
+                }, 
+                "neon_matrix_impl.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/", 
+                    "suffix": "neon_matrix_impl.h", 
+                    "key": "neon_matrix_impl.h"
+                }, 
+                "ccGLStateCache.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccGLStateCache.h", 
+                    "key": "ccGLStateCache.h"
+                }, 
+                "cpSlideJoint.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/constraints/", 
+                    "suffix": "cpSlideJoint.h", 
+                    "key": "cpSlideJoint.h"
+                }, 
+                "CCParallaxNode.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCParallaxNode.h", 
+                    "key": "CCParallaxNode.h"
+                }, 
+                "kazmath.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/", 
+                    "suffix": "kazmath.h", 
+                    "key": "kazmath.h"
+                }, 
+                "aabb.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/", 
+                    "suffix": "aabb.h", 
+                    "key": "aabb.h"
+                }, 
+                "CCActionInterval.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCActionInterval.h", 
+                    "key": "CCActionInterval.h"
+                }, 
+                "CCConfiguration.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCConfiguration.h", 
+                    "key": "CCConfiguration.h"
+                }, 
+                "CCRenderTexture.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCRenderTexture.h", 
+                    "key": "CCRenderTexture.h"
+                }, 
+                "vec4.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/", 
+                    "suffix": "vec4.h", 
+                    "key": "vec4.h"
+                }, 
+                "CCActionGrid3D.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCActionGrid3D.h", 
+                    "key": "CCActionGrid3D.h"
+                }, 
+                "TGAlib.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "TGAlib.h", 
+                    "key": "TGAlib.h"
+                }, 
+                "utlist.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "utlist.h", 
+                    "key": "utlist.h"
+                }, 
+                "CCTouchDispatcher.h": {
+                    "prefix": "../Shared/libs/cocos2d/Platforms/iOS/", 
+                    "suffix": "CCTouchDispatcher.h", 
+                    "key": "CCTouchDispatcher.h"
+                }, 
+                "cpHastySpace.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "cpHastySpace.h", 
+                    "key": "cpHastySpace.h"
+                }, 
+                "CCScene.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCScene.h", 
+                    "key": "CCScene.h"
+                }, 
+                "ChipmunkSpace.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "ChipmunkSpace.h", 
+                    "key": "ChipmunkSpace.h"
+                }, 
+                "cpPolyShape.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/", 
+                    "suffix": "cpPolyShape.h", 
+                    "key": "cpPolyShape.h"
+                }, 
+                "ChipmunkAutoGeometry.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "ChipmunkAutoGeometry.h", 
+                    "key": "ChipmunkAutoGeometry.h"
+                }, 
+                "CCActionTiledGrid.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCActionTiledGrid.h", 
+                    "key": "CCActionTiledGrid.h"
+                }, 
+                "OpenGL_Internal.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "OpenGL_Internal.h", 
+                    "key": "OpenGL_Internal.h"
+                }, 
+                "CCParticleSystem.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCParticleSystem.h", 
+                    "key": "CCParticleSystem.h"
+                }, 
+                "SimpleAudioEngine.h": {
+                    "prefix": "../Shared/libs/CocosDenshion/", 
+                    "suffix": "SimpleAudioEngine.h", 
+                    "key": "SimpleAudioEngine.h"
+                }, 
+                "ccShader_PositionColorLengthTexture_frag.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_PositionColorLengthTexture_frag.h", 
+                    "key": "ccShader_PositionColorLengthTexture_frag.h"
+                }, 
+                "CCProgressTimer.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCProgressTimer.h", 
+                    "key": "CCProgressTimer.h"
+                }, 
+                "ccShaders.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShaders.h", 
+                    "key": "ccShaders.h"
+                }, 
+                "CGPointExtension.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "CGPointExtension.h", 
+                    "key": "CGPointExtension.h"
+                }, 
+                "plane.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/", 
+                    "suffix": "plane.h", 
+                    "key": "plane.h"
+                }, 
+                "chipmunk_types.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/", 
+                    "suffix": "chipmunk_types.h", 
+                    "key": "chipmunk_types.h"
+                }, 
+                "MainLayer.h": {
+                    "prefix": "ChipmunkColorMatch/", 
+                    "suffix": "MainLayer.h", 
+                    "key": "MainLayer.h"
+                }, 
+                "cpBody.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/", 
+                    "suffix": "cpBody.h", 
+                    "key": "cpBody.h"
+                }, 
+                "CCClippingNode.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCClippingNode.h", 
+                    "key": "CCClippingNode.h"
+                }, 
+                "ChipmunkHastySpace.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "ChipmunkHastySpace.h", 
+                    "key": "ChipmunkHastySpace.h"
+                }, 
+                "CCAnimation.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCAnimation.h", 
+                    "key": "CCAnimation.h"
+                }, 
+                "ZipUtils.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "ZipUtils.h", 
+                    "key": "ZipUtils.h"
+                }, 
+                "Prefix.pch": {
+                    "prefix": "ChipmunkColorMatch/", 
+                    "suffix": "Prefix.pch", 
+                    "key": "Prefix.pch"
+                }, 
+                "ChipmunkTileCache.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "ChipmunkTileCache.h", 
+                    "key": "ChipmunkTileCache.h"
+                }, 
+                "CCLabelBMFont.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCLabelBMFont.h", 
+                    "key": "CCLabelBMFont.h"
+                }, 
+                "CCActionEase.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCActionEase.h", 
+                    "key": "CCActionEase.h"
+                }, 
+                "CCProfiling.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "CCProfiling.h", 
+                    "key": "CCProfiling.h"
+                }, 
+                "CCGL.h": {
+                    "prefix": "../Shared/libs/cocos2d/Platforms/", 
+                    "suffix": "CCGL.h", 
+                    "key": "CCGL.h"
+                }, 
+                "ChipmunkShape.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "ChipmunkShape.h", 
+                    "key": "ChipmunkShape.h"
+                }, 
+                "CCActionCatmullRom.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCActionCatmullRom.h", 
+                    "key": "CCActionCatmullRom.h"
+                }, 
+                "cpGrooveJoint.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/constraints/", 
+                    "suffix": "cpGrooveJoint.h", 
+                    "key": "cpGrooveJoint.h"
+                }, 
+                "ChipmunkBody.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "ChipmunkBody.h", 
+                    "key": "ChipmunkBody.h"
+                }, 
+                "CCGLProgram.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCGLProgram.h", 
+                    "key": "CCGLProgram.h"
+                }, 
+                "CCActionInstant.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCActionInstant.h", 
+                    "key": "CCActionInstant.h"
+                }, 
+                "CCFileUtils.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "CCFileUtils.h", 
+                    "key": "CCFileUtils.h"
+                }, 
+                "matrix.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/GL/", 
+                    "suffix": "matrix.h", 
+                    "key": "matrix.h"
+                }, 
+                "CCActionManager.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCActionManager.h", 
+                    "key": "CCActionManager.h"
+                }, 
+                "CCMotionStreak.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCMotionStreak.h", 
+                    "key": "CCMotionStreak.h"
+                }, 
+                "cpDampedSpring.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/constraints/", 
+                    "suffix": "cpDampedSpring.h", 
+                    "key": "cpDampedSpring.h"
+                }, 
+                "CCDrawNode.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCDrawNode.h", 
+                    "key": "CCDrawNode.h"
+                }, 
+                "CCDirectorIOS.h": {
+                    "prefix": "../Shared/libs/cocos2d/Platforms/iOS/", 
+                    "suffix": "CCDirectorIOS.h", 
+                    "key": "CCDirectorIOS.h"
+                }, 
+                "CCNode+Debug.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCNode+Debug.h", 
+                    "key": "CCNode+Debug.h"
+                }, 
+                "cpPolyline.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "cpPolyline.h", 
+                    "key": "cpPolyline.h"
+                }, 
+                "CCAction.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCAction.h", 
+                    "key": "CCAction.h"
+                }, 
+                "ObjectiveChipmunk.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "ObjectiveChipmunk.h", 
+                    "key": "ObjectiveChipmunk.h"
+                }, 
+                "CCSpriteBatchNode.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCSpriteBatchNode.h", 
+                    "key": "CCSpriteBatchNode.h"
+                }, 
+                "CCTMXObjectGroup.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCTMXObjectGroup.h", 
+                    "key": "CCTMXObjectGroup.h"
+                }, 
+                "Shared.h": {
+                    "prefix": "ChipmunkColorMatch/", 
+                    "suffix": "Shared.h", 
+                    "key": "Shared.h"
+                }, 
+                "ccDeprecated.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccDeprecated.h", 
+                    "key": "ccDeprecated.h"
+                }, 
+                "CCPhysicsSprite.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCPhysicsSprite.h", 
+                    "key": "CCPhysicsSprite.h"
+                }, 
+                "CCTMXXMLParser.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCTMXXMLParser.h", 
+                    "key": "CCTMXXMLParser.h"
+                }, 
+                "cpSpace.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/", 
+                    "suffix": "cpSpace.h", 
+                    "key": "cpSpace.h"
+                }, 
+                "CCActionCamera.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCActionCamera.h", 
+                    "key": "CCActionCamera.h"
+                }, 
+                "ccShader_PositionTextureA8Color_vert.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_PositionTextureA8Color_vert.h", 
+                    "key": "ccShader_PositionTextureA8Color_vert.h"
+                }, 
+                "CDConfig.h": {
+                    "prefix": "../Shared/libs/CocosDenshion/", 
+                    "suffix": "CDConfig.h", 
+                    "key": "CDConfig.h"
+                }, 
+                "cpConstraint.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/constraints/", 
+                    "suffix": "cpConstraint.h", 
+                    "key": "cpConstraint.h"
+                }, 
+                "CCDrawingPrimitives.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCDrawingPrimitives.h", 
+                    "key": "CCDrawingPrimitives.h"
+                }, 
+                "ccShader_Position_uColor_vert.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_Position_uColor_vert.h", 
+                    "key": "ccShader_Position_uColor_vert.h"
+                }, 
+                "cpSpatialIndex.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/", 
+                    "suffix": "cpSpatialIndex.h", 
+                    "key": "cpSpatialIndex.h"
+                }, 
+                "uthash.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "uthash.h", 
+                    "key": "uthash.h"
+                }, 
+                "mat4stack.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/GL/", 
+                    "suffix": "mat4stack.h", 
+                    "key": "mat4stack.h"
+                }, 
+                "CCNS.h": {
+                    "prefix": "../Shared/libs/cocos2d/Platforms/", 
+                    "suffix": "CCNS.h", 
+                    "key": "CCNS.h"
+                }, 
+                "CCTileMapAtlas.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCTileMapAtlas.h", 
+                    "key": "CCTileMapAtlas.h"
+                }, 
+                "CCTMXLayer.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCTMXLayer.h", 
+                    "key": "CCTMXLayer.h"
+                }, 
+                "ChipmunkMultiGrab.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "ChipmunkMultiGrab.h", 
+                    "key": "ChipmunkMultiGrab.h"
+                }, 
+                "mat4.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/", 
+                    "suffix": "mat4.h", 
+                    "key": "mat4.h"
+                }, 
+                "CCSpriteFrame.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCSpriteFrame.h", 
+                    "key": "CCSpriteFrame.h"
+                }, 
+                "CCScheduler.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCScheduler.h", 
+                    "key": "CCScheduler.h"
+                }, 
+                "ccShader_PositionTextureColorAlphaTest_frag.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_PositionTextureColorAlphaTest_frag.h", 
+                    "key": "ccShader_PositionTextureColorAlphaTest_frag.h"
+                }, 
+                "ccShader_PositionColorLengthTexture_vert.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_PositionColorLengthTexture_vert.h", 
+                    "key": "ccShader_PositionColorLengthTexture_vert.h"
+                }, 
+                "CCESRenderer.h": {
+                    "prefix": "../Shared/libs/cocos2d/Platforms/iOS/", 
+                    "suffix": "CCESRenderer.h", 
+                    "key": "CCESRenderer.h"
+                }, 
+                "CCTransitionPageTurn.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCTransitionPageTurn.h", 
+                    "key": "CCTransitionPageTurn.h"
+                }, 
+                "util.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/constraints/", 
+                    "suffix": "util.h", 
+                    "key": "util.h"
+                }, 
+                "base64.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "base64.h", 
+                    "key": "base64.h"
+                }, 
+                "cpArbiter.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/", 
+                    "suffix": "cpArbiter.h", 
+                    "key": "cpArbiter.h"
+                }, 
+                "CCParticleBatchNode.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCParticleBatchNode.h", 
+                    "key": "CCParticleBatchNode.h"
+                }, 
+                "ccShader_PositionTexture_frag.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_PositionTexture_frag.h", 
+                    "key": "ccShader_PositionTexture_frag.h"
+                }, 
+                "vec2.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/", 
+                    "suffix": "vec2.h", 
+                    "key": "vec2.h"
+                }, 
+                "chipmunk_unsafe.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/", 
+                    "suffix": "chipmunk_unsafe.h", 
+                    "key": "chipmunk_unsafe.h"
+                }, 
+                "CCGLView.h": {
+                    "prefix": "../Shared/libs/cocos2d/Platforms/iOS/", 
+                    "suffix": "CCGLView.h", 
+                    "key": "CCGLView.h"
+                }, 
+                "CCParticleSystemQuad.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCParticleSystemQuad.h", 
+                    "key": "CCParticleSystemQuad.h"
+                }, 
+                "cpDampedRotarySpring.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/constraints/", 
+                    "suffix": "cpDampedRotarySpring.h", 
+                    "key": "cpDampedRotarySpring.h"
+                }, 
+                "ccMacros.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccMacros.h", 
+                    "key": "ccMacros.h"
+                }, 
+                "ChipmunkExtras.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "ChipmunkExtras.h", 
+                    "key": "ChipmunkExtras.h"
+                }, 
+                "ccShader_PositionTexture_vert.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_PositionTexture_vert.h", 
+                    "key": "ccShader_PositionTexture_vert.h"
+                }, 
+                "CCLabelAtlas.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCLabelAtlas.h", 
+                    "key": "CCLabelAtlas.h"
+                }, 
+                "AppDelegate.h": {
+                    "prefix": "ChipmunkColorMatch/", 
+                    "suffix": "AppDelegate.h", 
+                    "key": "AppDelegate.h"
+                }, 
+                "cpPinJoint.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/constraints/", 
+                    "suffix": "cpPinJoint.h", 
+                    "key": "cpPinJoint.h"
+                }, 
+                "mat3.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/", 
+                    "suffix": "mat3.h", 
+                    "key": "mat3.h"
+                }, 
+                "CCParticleExamples.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCParticleExamples.h", 
+                    "key": "CCParticleExamples.h"
+                }, 
+                "CCTexture2D.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCTexture2D.h", 
+                    "key": "CCTexture2D.h"
+                }, 
+                "CCTextureAtlas.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCTextureAtlas.h", 
+                    "key": "CCTextureAtlas.h"
+                }, 
+                "utility.h": {
+                    "prefix": "../Shared/libs/kazmath/include/kazmath/", 
+                    "suffix": "utility.h", 
+                    "key": "utility.h"
+                }, 
+                "cpRatchetJoint.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/constraints/", 
+                    "suffix": "cpRatchetJoint.h", 
+                    "key": "cpRatchetJoint.h"
+                }, 
+                "CCCamera.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCCamera.h", 
+                    "key": "CCCamera.h"
+                }, 
+                "CCWindow.h": {
+                    "prefix": "../Shared/libs/cocos2d/Platforms/Mac/", 
+                    "suffix": "CCWindow.h", 
+                    "key": "CCWindow.h"
+                }, 
+                "CCShaderCache.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCShaderCache.h", 
+                    "key": "CCShaderCache.h"
+                }, 
+                "chipmunk_private.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/chipmunk/", 
+                    "suffix": "chipmunk_private.h", 
+                    "key": "chipmunk_private.h"
+                }, 
+                "CCNode.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCNode.h", 
+                    "key": "CCNode.h"
+                }, 
+                "cpMarch.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "cpMarch.h", 
+                    "key": "cpMarch.h"
+                }, 
+                "ccUtils.h": {
+                    "prefix": "../Shared/libs/cocos2d/Support/", 
+                    "suffix": "ccUtils.h", 
+                    "key": "ccUtils.h"
+                }, 
+                "ccShader_PositionTextureA8Color_frag.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "ccShader_PositionTextureA8Color_frag.h", 
+                    "key": "ccShader_PositionTextureA8Color_frag.h"
+                }, 
+                "CCDirector.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCDirector.h", 
+                    "key": "CCDirector.h"
+                }, 
+                "CCMenuItem.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCMenuItem.h", 
+                    "key": "CCMenuItem.h"
+                }, 
+                "CCTexturePVR.h": {
+                    "prefix": "../Shared/libs/cocos2d/", 
+                    "suffix": "CCTexturePVR.h", 
+                    "key": "CCTexturePVR.h"
+                }, 
+                "ChipmunkImageSampler.h": {
+                    "prefix": "../Shared/libs/ChipmunkPro-iPhone-Trial/", 
+                    "suffix": "ChipmunkImageSampler.h", 
+                    "key": "ChipmunkImageSampler.h"
+                }, 
+                "CCDirectorMac.h": {
+                    "prefix": "../Shared/libs/cocos2d/Platforms/Mac/", 
+                    "suffix": "CCDirectorMac.h", 
+                    "key": "CCDirectorMac.h"
+                }
+            }
+        }, 
+        {
+            "header_path": "../Shared/libs/kazmath/include", 
+            "type": "I"
+        }
+    ], 
+    "modules": [], 
+    "sources": [
+        {
+            "source": "../Shared/libs/CocosDenshion/CDAudioManager.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/CocosDenshion/CDOpenALSupport.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/CocosDenshion/CocosDenshion.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/CocosDenshion/SimpleAudioEngine.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCAction.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCActionCamera.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCActionCatmullRom.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCActionEase.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCActionGrid.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCActionGrid3D.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCActionInstant.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCActionInterval.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCActionManager.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCActionPageTurn3D.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCActionProgressTimer.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCActionTiledGrid.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCActionTween.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCAnimation.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCAnimationCache.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCAtlasNode.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCCamera.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCClippingNode.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCConfiguration.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCDirector.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCDrawNode.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCDrawingPrimitives.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCGLProgram.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCGrabber.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCGrid.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCLabelAtlas.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCLabelBMFont.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCLabelTTF.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCLayer.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCMenu.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCMenuItem.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCMotionStreak.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCNode+Debug.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCNode.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCParallaxNode.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCParticleBatchNode.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCParticleExamples.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCParticleSystem.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCParticleSystemQuad.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCPhysicsDebugNode.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCPhysicsSprite.mm", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc++", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCProgressTimer.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCRenderTexture.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCScene.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCScheduler.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCShaderCache.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCSprite.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCSpriteBatchNode.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCSpriteFrame.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCSpriteFrameCache.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCTMXLayer.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCTMXObjectGroup.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCTMXTiledMap.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCTMXXMLParser.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCTexture2D.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCTextureAtlas.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCTextureCache.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCTexturePVR.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCTileMapAtlas.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCTransition.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCTransitionPageTurn.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/CCTransitionProgress.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Platforms/iOS/CCDirectorIOS.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Platforms/iOS/CCES2Renderer.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Platforms/iOS/CCGLView.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Platforms/iOS/CCTouchDispatcher.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Platforms/iOS/CCTouchHandler.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Support/CCArray.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Support/CCFileUtils.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Support/CCProfiling.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Support/CCVertex.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Support/CGPointExtension.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Support/NSThread+performBlock.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Support/TGAlib.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Support/TransformUtils.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Support/ZipUtils.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Support/base64.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Support/ccCArray.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/Support/ccUtils.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/ccDeprecated.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/ccGLStateCache.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/ccShaders.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/cocos2d/cocos2d.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/kazmath/src/GL/mat4stack.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/kazmath/src/GL/matrix.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/kazmath/src/aabb.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/kazmath/src/mat3.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/kazmath/src/mat4.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/kazmath/src/neon_matrix_impl.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/kazmath/src/plane.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/kazmath/src/quaternion.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/kazmath/src/ray2.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/kazmath/src/utility.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/kazmath/src/vec2.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/kazmath/src/vec3.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }, 
+        {
+            "source": "../Shared/libs/kazmath/src/vec4.c", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "c", 
+            "defines": {}
+        }
+    ], 
+    "version": "1", 
+    "flags": [
+        "-fwritable-strings", 
+        "-fasm-blocks", 
+        {
+            "flag": "-std=gnu99", 
+            "not_type": "c++"
+        }, 
+        {
+            "flag": "-fgnu-keywords", 
+            "not_type": "c++"
+        }, 
+        "-fno-asm", 
+        "-fpascal-strings", 
+        "-Wempty-body", 
+        "-Wno-deprecated-declarations", 
+        "-Wreturn-type", 
+        "-Wswitch", 
+        "-Wparentheses", 
+        "-Wformat", 
+        "-Wuninitialized", 
+        "-Wunused-value", 
+        "-Wunused-variable", 
+        {
+            "flag": "-Winvalid-offsetof", 
+            "type": "c++"
+        }, 
+        {
+            "flag": "-Wprotocol", 
+            "type": "objc"
+        }
+    ], 
+    "infoplists": [], 
+    "deps": [
+        "UIKit", 
+        "AudioToolbox", 
+        "AVFoundation"
+    ], 
+    "libs": [], 
+    "java_sourcepaths": [], 
+    "java_res_dirs": [], 
+    "type": "static-lib", 
+    "java_libs": [], 
+    "defines": {
+        "NDEBUG": 1, 
+        "NS_BLOCK_ASSERTIONS": 1, 
+        "__IPHONE_OS_VERSION_MIN_REQUIRED": 50000
+    }
+}
