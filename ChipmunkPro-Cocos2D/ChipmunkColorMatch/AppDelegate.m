@@ -63,6 +63,30 @@
 		[director runWithScene: [MainLayer scene]];
 	}
 }
+
+-(void)updateProjection;
+{
+	CGSize size = [CCDirector sharedDirector].winSizeInPixels;
+	CGSize virtualSize = CGSizeMake(1024, 768);
+	
+	CGFloat scale = MAX(virtualSize.width/size.width, virtualSize.height/size.height);
+	CGSize scaledSize = CGSizeMake(size.width*scale, size.height*scale);
+	CGPoint offset = CGPointMake((scaledSize.width - virtualSize.width)/2.0, (scaledSize.height - virtualSize.height)/2.0);
+	
+	kmGLMatrixMode(KM_GL_PROJECTION);
+	kmGLLoadIdentity();
+
+	kmMat4 proj;
+	kmMat4OrthographicProjection(&proj, -offset.x, scaledSize.width - offset.x, -offset.y, scaledSize.height - offset.y, -1024, 1024 );
+	kmGLMultMatrix(&proj);
+
+	kmGLMatrixMode(KM_GL_MODELVIEW);
+	kmGLLoadIdentity();
+	
+	glEnable(GL_SCISSOR_TEST);
+	glScissor(offset.x, offset.y, size.width - offset.x, size.height - offset.y);
+}
+
 @end
 
 
@@ -72,6 +96,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+#ifdef APPORTABLE
+[UIScreen mainScreen].currentMode = [UIScreenMode emulatedMode:UIScreenNativeMode];
+#endif
+
 	// Create the main window
 	window_ = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	
@@ -99,7 +127,7 @@
 	[director_ setView:glView];
 	
 	// 2D projection
-	[director_ setProjection:kCCDirectorProjection2D];
+	[director_ setProjection:kCCDirectorProjectionCustom];
 	//	[director setProjection:kCCDirectorProjection3D];
 	
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices

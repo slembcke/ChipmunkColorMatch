@@ -35,7 +35,8 @@
     ], 
     "libs": [
         "z", 
-        "Cocos2D"
+        "Cocos2D", 
+        "ChipmunkPro-iPhone"
     ], 
     "defines": {
         "NDEBUG": 1, 
@@ -47,16 +48,16 @@
     ], 
     "assets": [
         {
-            "asset": "../Shared/Resources/fps_images-ipadhd.png", 
-            "target": "fps_images-ipadhd.png"
+            "asset": "../Shared/Resources/fps_images.png", 
+            "target": "fps_images.png"
         }, 
         {
             "asset": "../Shared/Resources/fps_images-hd.png", 
             "target": "fps_images-hd.png"
         }, 
         {
-            "asset": "../Shared/Resources/fps_images.png", 
-            "target": "fps_images.png"
+            "asset": "../Shared/Resources/fps_images-ipadhd.png", 
+            "target": "fps_images-ipadhd.png"
         }, 
         {
             "asset": "../Shared/Resources/iTunesArtwork", 

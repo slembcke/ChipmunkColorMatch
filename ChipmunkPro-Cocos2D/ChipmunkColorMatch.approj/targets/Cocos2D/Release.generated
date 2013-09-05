@@ -712,7 +712,7 @@
     "pchs": [], 
     "assets": [
         {
-            "asset": "../../../../../../var/folders/h2/cf2s9klj24vfwn_88c7q6_k00000gn/T/tmpUVXAW3/TARGET_BUILD_DIR/libCocos2D.a", 
+            "asset": "../../../../../../var/folders/h2/cf2s9klj24vfwn_88c7q6_k00000gn/T/tmp7dyBL1/TARGET_BUILD_DIR/libCocos2D.a", 
             "target": "../../../../../../../../Users/slembcke/Development/ChipmunkExamples/ChipmunkColorMatch/ChipmunkPro-Cocos2D/normal"
         }
     ], 

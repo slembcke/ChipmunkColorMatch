@@ -6,16 +6,16 @@
     ], 
     "assets": [
         {
-            "asset": "../Shared/Resources/fps_images-ipadhd.png", 
-            "target": "fps_images-ipadhd.png"
+            "asset": "../Shared/Resources/fps_images.png", 
+            "target": "fps_images.png"
         }, 
         {
             "asset": "../Shared/Resources/fps_images-hd.png", 
             "target": "fps_images-hd.png"
         }, 
         {
-            "asset": "../Shared/Resources/fps_images.png", 
-            "target": "fps_images.png"
+            "asset": "../Shared/Resources/fps_images-ipadhd.png", 
+            "target": "fps_images-ipadhd.png"
         }, 
         {
             "asset": "../Shared/Resources/iTunesArtwork", 
@@ -86,10 +86,7 @@
             "target": "ball_highlight.png"
         }
     ], 
-    "link_flags": [
-        "/Users/slembcke/Development/ChipmunkExamples/ChipmunkColorMatch/ChipmunkPro-Cocos2D/ChipmunkColorMatch.approj/assets/libChipmunkPro.a", 
-        "/Users/slembcke/Development/ChipmunkExamples/ChipmunkColorMatch/ChipmunkPro-Cocos2D/ChipmunkColorMatch.approj/assets/libObjectiveChipmunk.a"
-    ], 
+    "link_flags": [], 
     "config": {
         "FEATURES": [
             "opengles2", 
@@ -1111,7 +1108,10 @@
     ], 
     "libs": [
         "z", 
-        "Cocos2D"
+        "Cocos2D", 
+        "ChipmunkPro-iPhone", 
+        "ChipmunkColorMatch.approj/libs/libObjectiveChipmunk.a", 
+        "ChipmunkColorMatch.approj/libs/libChipmunkPro.a"
     ], 
     "java_sourcepaths": [], 
     "java_res_dirs": [], 

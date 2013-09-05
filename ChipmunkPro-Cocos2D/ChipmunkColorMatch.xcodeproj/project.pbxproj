@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7522B0E3166964F20021706F /* ball_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 7522B0E2166964F20021706F /* ball_highlight.png */; };
+		D30871BE17D823870073914D /* libChipmunkPro-iPhone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D30871BC17D7E95A0073914D /* libChipmunkPro-iPhone.a */; };
 		D31032DC166689E600310706 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D31032DB166689E600310706 /* ImageIO.framework */; };
 		D31032E7166691F400310706 /* Ball.m in Sources */ = {isa = PBXBuildFile; fileRef = D31032E6166691F400310706 /* Ball.m */; };
 		D31032FB1666A31800310706 /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D31032EF1666A2F700310706 /* CDAudioManager.m */; };
@@ -510,6 +511,7 @@
 				D3B887C016667CF10060278E /* Foundation.framework in Frameworks */,
 				D3B887C216667CF10060278E /* CoreGraphics.framework in Frameworks */,
 				D3B887C416667CF10060278E /* GameKit.framework in Frameworks */,
+				D30871BE17D823870073914D /* libChipmunkPro-iPhone.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

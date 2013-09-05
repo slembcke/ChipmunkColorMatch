@@ -204,13 +204,13 @@
     "java_res_dirs": [],
 
     //A list of libs to include with the APK
-    "libs":[],
+    "libs":[
+    	"ChipmunkColorMatch.approj/libs/libObjectiveChipmunk.a",
+    	"ChipmunkColorMatch.approj/libs/libChipmunkPro.a",
+    ],
 
     //Additional linker (ld) flags.
-    "link_flags":[
-    	"/Users/slembcke/Development/ChipmunkExamples/ChipmunkColorMatch/ChipmunkPro-Cocos2D/ChipmunkColorMatch.approj/assets/libChipmunkPro.a",
-    	"/Users/slembcke/Development/ChipmunkExamples/ChipmunkColorMatch/ChipmunkPro-Cocos2D/ChipmunkColorMatch.approj/assets/libObjectiveChipmunk.a",
-    ],
+    "link_flags":[],
 
     //Sub projects
     "modules": [],
